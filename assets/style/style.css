@@ -1,33 +1,9 @@
 body{
     background: #59315E;
-    margin: 0;
-    padding: 0;
+
 }
 
-head{
-    width: 100vw;
+.login {
+    text-align: center;
 }
 
-.container{
-    width: 100vw;
-    height: 5vh;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-input{
-    width: 5vw;
-}
-
-.login{
-    height: 12vh;
-    margin-top: 8.7vh;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-}
-
-.register{
-    margin-right: 2vw;
-}
