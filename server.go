@@ -12,9 +12,6 @@ import (
 )
 
 func database(username string, email string, password string) {
-	fmt.Println(username)
-	fmt.Println(email)
-	fmt.Println(password)
 
 	database, _ :=
 		sql.Open("sqlite3", "data.db")
@@ -73,6 +70,7 @@ func main() {
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	http.Handle("/", fs)
 	http.HandleFunc("/main", mainHandle)
+
 	http.HandleFunc("/connect", RegisterHandle)
 	http.ListenAndServe(":8080", nil)
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="style/connect.css">
     <title>Register</title>
 </head>
+
 <body>
     <div class="main-content">
 
@@ -19,31 +21,32 @@
                     <div class="form-title-row">
                         <h1>Create an account</h1>
                     </div>
-                    
+
                     <div class="form-row">
                         <label>
                             <span>User name</span>
-                            <input  type="text" name="username">
+                            <input type="text" name="username" id="user" required>
                         </label>
                     </div>
 
                     <div class="form-row">
                         <label>
                             <span>Email</span>
-                            <input type="email" name="email">
+                            <input type="email" name="email" id="email" required>
                         </label>
                     </div>
 
                     <div class="form-row">
                         <label>
                             <span>Password</span>
-                            <input type="password"  name="password">
+                            <input type="password" name="password" id="password" required>
                         </label>
                     </div>
 
-                    <div class="form-row">
-                        <button type="submit">Register</button>
-                    </div>
+
+                    <button onclick="test()">Register
+
+                    </button>
 
                 </div>
 
@@ -54,6 +57,18 @@
         </form>
 
     </div>
+    <script type="text/javascript">
+        function test() {
+            var user = document.getElementById("user");
+            var email = document.getElementById("email")
+            var password = document.getAnimations("password")
+            
+            if  (user != "" && email != "" && password != ""){
 
+                alert("Register complited ! :)");
+            }
+        }
+    </script>
 </body>
+
 </html>

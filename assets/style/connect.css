@@ -77,12 +77,10 @@ html{
     margin: 0;
 }
 
-.form-register-with-email .form-checkbox span a{
-    text-decoration: none;
-    color:  #3B73CE;
-}
 
-.form-register-with-email button{
+
+button{
+    z-index: 1000;
     display: block;
     border-radius: 2px;
     background-color:  #3B73CE;
@@ -103,33 +101,7 @@ html{
     background-color: #FFF5BF;
 }
 
-.form-sign-in-with-social .form-facebook-button{
-    color:  #ffffff;
-    display: block;
-    width: 145px;
-    height: 40px;
-    font-size: 12px;
-    line-height: 40px;
-    background-color:  rgba(75, 136, 194, 0.9);
-    box-shadow: 1px 2px 2px 0 rgba(0, 0, 0, 0.08);
-    border-radius: 2px;
-    margin: 8px auto;
-    text-decoration: none;
-}
 
-.form-sign-in-with-social .form-twitter-button{
-    color:  #ffffff;
-    display: block;
-    width: 145px;
-    height: 40px;
-    font-size: 12px;
-    line-height: 40px;
-    background-color:  rgba(123, 195, 226, 0.9);
-    box-shadow: 1px 2px 2px 0 rgba(0, 0, 0, 0.08);
-    border-radius: 2px;
-    margin: 8px auto;
-    text-decoration: none;
-}
 
 /*	Making the form responsive. Remove these media queries
     if you don't need the form to work on mobile devices. */
