@@ -102,6 +102,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+<<<<<<< HEAD
 type databaseInfo struct {
 	idx     int
 	pseudo  string
@@ -148,6 +149,36 @@ func database(username string, newPost string) {
 }
 
 func getInfo() []comment {
+=======
+func login(logUser string, logPassword string) {
+	var username string
+	var email string
+	var password string
+	var id int
+
+<<<<<<< HEAD
+	database, _ :=
+		sql.Open("sqlite3", "data.db")
+	rows, _ :=
+		database.Query("SELECT id, username, email, password FROM people")
+	for rows.Next() {
+		rows.Scan(&id, &username, &email, &password)
+		fmt.Println(strconv.Itoa(id) + ": " + username + " " + email + " " + password)
+		if logUser == username && logPassword == password {
+			fmt.Println("ok log id =", id)
+			break
+		}
+	}
+	database.Close()
+}
+
+func main() {
+	login("PetitCul_Pâle", "123456789")
+=======
+func main() {
+	os.Remove("sqlite-database.db") // I delete the file to avoid duplicated records. 
+                                    // SQLite is a file based database.
+>>>>>>> 00a3207abf92fc8fe45a2c79179cc0729ce65e95
 
 	database, _ :=
 		sql.Open("sqlite3", "test.db")
@@ -167,11 +198,36 @@ func getInfo() []comment {
 		}
 		test = append(test, data)
 	}
+<<<<<<< HEAD
 
 	// fmt.Println(strconv.Itoa(id) + ": " + username + " " + newPost)
 	// fmt.Println(test)
 	return test
 
+=======
+	file.Close()
+	log.Println("sqlite-database.db created")
+
+	sqliteDatabase, _ := sql.Open
+    ("sqlite3", "./sqlite-database.db") // Open the created SQLite File
+	defer sqliteDatabase.Close() // Defer Closing the database
+	createTable(sqliteDatabase) // Create Database Tables
+
+        // INSERT RECORDS
+	insertStudent(sqliteDatabase, "0001", "Liana Kim", "Bachelor")
+	insertStudent(sqliteDatabase, "0002", "Glen Rangel", "Bachelor")
+	insertStudent(sqliteDatabase, "0003", "Martin Martins", "Master")
+	insertStudent(sqliteDatabase, "0004", "Alayna Armitage", "PHD")
+	insertStudent(sqliteDatabase, "0005", "Marni Benson", "Bachelor")
+	insertStudent(sqliteDatabase, "0006", "Derrick Griffiths", "Master")
+	insertStudent(sqliteDatabase, "0007", "Leigh Daly", "Bachelor")
+	insertStudent(sqliteDatabase, "0008", "Marni Benson", "PHD")
+	insertStudent(sqliteDatabase, "0009", "Klay Correa", "Bachelor")
+
+        // DISPLAY INSERTED RECORDS
+	displayStudents(sqliteDatabase)
+>>>>>>> 431cda5c7b25cfca91d844522e3c08ca8edb8d86
+>>>>>>> 00a3207abf92fc8fe45a2c79179cc0729ce65e95
 }
 
 func mainHandle(w http.ResponseWriter, r *http.Request) {

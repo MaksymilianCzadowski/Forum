@@ -11,21 +11,25 @@
 
 <body>
 
-    <div class="login" method="POST">
-        <div>
-            <input type="text" id="pseudo" name="username" placeholder="username" required>
-        </div>
-        <div>
-            <input type="text" id="password" name="password" placeholder="password" required>
-        </div>
-        <div>
-            <button>Login</button>
-            <a href="/connect">
-                <button>Register</button>
-            </a>
-        </div>
-
-    </div>
+    <head>
+        <form method="POST">
+            <div class="login">
+                <div>
+                    <input type="text" id="pseudo" name="username" placeholder="username" required>
+                </div>
+                <div>
+                    <input type="password" id="password" name="password" placeholder="password" required>
+                </div>
+                <div>
+                    <button type="submit" value="login">Login</button>
+                    
+                </div>
+            </div>
+        </form>
+        <a href="/connect">
+            <button>Register</button>
+        </a>
+        
 
 </body>
 
