@@ -8,30 +8,27 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func delete() {
+func login(logUser string, logPassword string) {
+	var username string
+	var email string
+	var password string
+	var id int
+
 	database, _ :=
-		sql.Open("sqlite3", "./bogo.db")
-	statement, _ :=
-		database.Prepare("DROP TABLE IF EXISTS people (id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT)")
-	statement.Exec()
+		sql.Open("sqlite3", "data.db")
+	rows, _ :=
+		database.Query("SELECT id, username, email, password FROM people")
+	for rows.Next() {
+		rows.Scan(&id, &username, &email, &password)
+		fmt.Println(strconv.Itoa(id) + ": " + username + " " + email + " " + password)
+		if logUser == username && logPassword == password {
+			fmt.Println("ok log id =", id)
+			break
+		}
+	}
+	database.Close()
 }
 
 func main() {
-	database, _ :=
-		sql.Open("sqlite3", "./bogo.db")
-	statement, _ :=
-		database.Prepare("CREATE TABLE IF NOT EXISTS people (id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT)")
-	statement.Exec()
-	statement, _ =
-		database.Prepare("INSERT INTO people (firstname, lastname) VALUES (?, ?)")
-	statement.Exec("Rob", "Gronkowski")
-	rows, _ :=
-		database.Query("SELECT id, firstname, lastname FROM people")
-	var id int
-	var firstname string
-	var lastname string
-	for rows.Next() {
-		rows.Scan(&id, &firstname, &lastname)
-		fmt.Println(strconv.Itoa(id) + ": " + firstname + " " + lastname)
-	}
+	login("PetitCul_Pâle", "123456789")
 }

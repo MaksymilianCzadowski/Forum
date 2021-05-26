@@ -11,6 +11,13 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+type Login struct {
+	Username string
+	Password string
+}
+
+var DataLogin Login
+
 func database(username string, email string, password string) {
 
 	database, _ :=
@@ -31,12 +38,40 @@ func database(username string, email string, password string) {
 	database.Close()
 
 }
+func login(logUser string, logPassword string) bool {
+	var username string
+	var email string
+	var password string
+	var id int
 
-func mainHandle(w http.ResponseWriter, r *http.Request) {
+	database, _ :=
+		sql.Open("sqlite3", "data.db")
+	rows, _ :=
+		database.Query("SELECT id, username, email, password FROM people")
+	for rows.Next() {
+		rows.Scan(&id, &username, &email, &password)
+		fmt.Println(strconv.Itoa(id) + ": " + username + " " + email + " " + password)
+		if logUser == username && logPassword == password {
+			fmt.Println("ok log id =", id)
+			return true
+		}
+	}
+	database.Close()
+	return false
+}
+
+func LoginHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("HOM")
-	// userName := r.FormValue("name")
-	// password := r.FormValue("password")
-	data := "test"
+	var data Login
+
+	data.Username = r.FormValue("username")
+	data.Password = r.FormValue("password")
+	if data.Password != "" && data.Username != "" {
+		if login(data.Username, data.Password) {
+			http.Redirect(w, r, "/account", http.StatusSeeOther)
+		}
+
+	}
 	tpl := template.Must(template.ParseFiles("assets/index.html"))
 
 	err := tpl.Execute(w, data)
@@ -53,9 +88,9 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	if userName != "" && email != "" && password != "" {
-		fmt.Println("tu rentre de dans wsh")
 		database(userName, email, password)
 		http.Redirect(w, r, "/main", http.StatusSeeOther)
+
 	}
 
 	data := "test"
@@ -67,26 +102,22 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func loginHandle(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Println("login")
-// 	// userName := r.FormValue("username")
-// 	// password := r.FormValue("password")
-// 	tpl := template.Must(template.ParseFiles("assets/index.html"))
+func account(w http.ResponseWriter, r *http.Request) {
+	data := ""
+	tpl := template.Must(template.ParseFiles("assets/signIn.html"))
 
-// 	var testTabb []string
-// 	testTabb = append(testestTabb)
-// 	err := tpl.Execute(w)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// }
+	err := tpl.Execute(w, data)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
 	fs := http.FileServer(http.Dir("assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	http.Handle("/", fs)
-	http.HandleFunc("/main", mainHandle)
-
+	http.HandleFunc("/main", LoginHandle)
 	http.HandleFunc("/connect", RegisterHandle)
+	http.HandleFunc("/account", account)
 	http.ListenAndServe(":8080", nil)
 }
