@@ -28,6 +28,7 @@ func database(username string, email string, password string) {
 		rows.Scan(&id, &username, &email, &password)
 		fmt.Println(strconv.Itoa(id) + ": " + username + " " + email + " " + password)
 	}
+	database.Close()
 
 }
 
@@ -54,6 +55,7 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 	if userName != "" && email != "" && password != "" {
 		fmt.Println("tu rentre de dans wsh")
 		database(userName, email, password)
+		http.Redirect(w, r, "/main", http.StatusSeeOther)
 	}
 
 	data := "test"
@@ -64,6 +66,20 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 }
+
+// func loginHandle(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Println("login")
+// 	// userName := r.FormValue("username")
+// 	// password := r.FormValue("password")
+// 	tpl := template.Must(template.ParseFiles("assets/index.html"))
+
+// 	var testTabb []string
+// 	testTabb = append(testestTabb)
+// 	err := tpl.Execute(w)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// }
 
 func main() {
 	fs := http.FileServer(http.Dir("assets"))

@@ -8,6 +8,14 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+func delete() {
+	database, _ :=
+		sql.Open("sqlite3", "./bogo.db")
+	statement, _ :=
+		database.Prepare("DROP TABLE IF EXISTS people (id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT)")
+	statement.Exec()
+}
+
 func main() {
 	database, _ :=
 		sql.Open("sqlite3", "./bogo.db")
