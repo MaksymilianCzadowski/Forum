@@ -1,97 +1,229 @@
+// package main
+
+// import (
+// 	"database/sql"
+// 	"fmt"
+// 	"html/template"
+// 	"log"
+// 	"net/http"
+// 	"strconv"
+// )
+
+// type infoData struct {
+// 	id       int
+// 	username string
+// 	newPost    string
+// 	password string
+// 	newPost  string
+// }
+
+// func mainHandle(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Println("HOM")
+// 	data := "test"
+// 	tpl := template.Must(template.ParseFiles("assets/index.html"))
+// 	err := tpl.Execute(w, data)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// }
+
+// func main() {
+// 	fmt.Println("TTTrrrrooooppppp ccccooooollllll ssaaaaaa mmmmmarccchhhhheeee :)))))))")
+// 	fs := http.FileServer(http.Dir("assets"))
+// 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
+// 	http.Handle("/", fs)
+// 	http.HandleFunc("/main", mainHandle)
+// 	http.HandleFunc("/post", PostHandle)
+// 	http.ListenAndServe(":6060", nil)
+// }
+
+// func database(username string, newPost string) {
+
+// 	database, _ :=
+// 		sql.Open("sqlite3", "data.db")
+// 	statement, _ :=
+// 		database.Prepare("CREATE TABLE IF NOT EXISTS post (id INTEGER PRIMARY KEY, username TEXT, newPost TEXT)")
+// 	statement.Exec()
+// 	statement, _ =
+// 		database.Prepare("INSERT INTO post (username, newPost) VALUES (?, ?)")
+// 	statement.Exec(username, newPost)
+// 	rows, _ :=
+// 		database.Query("SELECT id, username, newPost FROM post")
+// 	var id int
+// 	for rows.Next() {
+// 		rows.Scan(&id, &username, &newPost)
+// 		fmt.Println(strconv.Itoa(id) + ": " + username + " " + newPost)
+// 	}
+
+// }
+
+// func PostHandle(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Println("post")
+
+// 	// userName := r.FormValue("username")
+// 	// userName := "Chocolat"
+// 	// newPost := r.FormValue("newPost")
+// 	var postTab []string
+
+// 	idata := infoData{
+// 		username: "doof",
+// 		newPost:  "Salut tout le monde.",
+// 	}
+// 	tpl := template.Must(template.ParseFiles("assets/test.html"))
+
+// 	// if userName != "" && newPost != "" {
+// 	fmt.Println("tu rentres dedans wsh")
+// 	database(idata.username, idata.newPost)
+// 	http.Redirect(w, r, "/main", http.StatusSeeOther)
+// 	// }
+
+// 	postTab = append(postTab, idata.username)
+// 	postTab = append(postTab, idata.newPost)
+// 	println(postTab[1])
+
+// 	data := "test"
+
+// 	err := tpl.Execute(w, data)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// }
+
 package main
 
 import (
 	"database/sql"
+	"fmt"
+	"html/template"
 	"log"
-	"os"
+	"net/http"
+	"strconv"
 
-	_ "github.com/mattn/go-sqlite3" // Import go-sqlite3 library
+	_ "github.com/mattn/go-sqlite3"
 )
 
-func delete() {
+type databaseInfo struct {
+	idx     int
+	pseudo  string
+	message string
+}
+type comment struct {
+	id      int
+	image   string
+	pseudo  string
+	titre   string
+	message string
+}
+
+type oui struct {
+	Postee []comment
+}
+
+func database(username string, newPost string) {
+
 	database, _ :=
-		sql.Open("sqlite3", "./bogo.db")
+		sql.Open("sqlite3", "test.db")
 	statement, _ :=
-		database.Prepare("DROP TABLE IF EXISTS people (id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT)")
+		database.Prepare("CREATE TABLE IF NOT EXISTS post (id INTEGER PRIMARY KEY, username TEXT, newPost TEXT)")
 	statement.Exec()
+	statement, _ =
+		database.Prepare("INSERT INTO post (username, newPost) VALUES (?, ?)")
+	fmt.Println("ici")
+	statement.Exec(username, newPost)
+	fmt.Println("G TROUVER VOUS ETES NUL")
+	rows, _ :=
+		database.Query("SELECT id, username, newPost FROM post")
+	var id int
+	var test []string
+	for rows.Next() {
+		rows.Scan(&id, &username, &newPost)
+		test = append(test, strconv.Itoa(id)+": "+username+" "+newPost+"\n")
+		// test = append(test, username)
+		// test = append(test, newPost)
+	}
+	// fmt.Println(strconv.Itoa(id) + ": " + username + " " + newPost)
+	// fmt.Println(test)
+	// return test
+
 }
 
-func main() {
-	os.Remove("sqlite-database.db") // I delete the file to avoid duplicated records. 
-                                    // SQLite is a file based database.
+func getInfo() []comment {
 
-	log.Println("Creating sqlite-database.db...")
-	file, err := os.Create("sqlite-database.db") // Create SQLite file
-	if err != nil {
-		log.Fatal(err.Error())
+	database, _ :=
+		sql.Open("sqlite3", "test.db")
+	rows, _ :=
+		database.Query("SELECT id, username, newPost FROM post")
+
+	var _id int
+	var test []comment
+	var _pseudo string
+	var _message string
+	for rows.Next() {
+		rows.Scan(&_id, &_pseudo, &_message)
+		data := comment{
+			id:      _id,
+			pseudo:  _pseudo,
+			message: _message,
+		}
+		test = append(test, data)
 	}
-	file.Close()
-	log.Println("sqlite-database.db created")
 
-	sqliteDatabase, _ := sql.Open
-    ("sqlite3", "./sqlite-database.db") // Open the created SQLite File
-	defer sqliteDatabase.Close() // Defer Closing the database
-	createTable(sqliteDatabase) // Create Database Tables
+	// fmt.Println(strconv.Itoa(id) + ": " + username + " " + newPost)
+	// fmt.Println(test)
+	return test
 
-        // INSERT RECORDS
-	insertStudent(sqliteDatabase, "0001", "Liana Kim", "Bachelor")
-	insertStudent(sqliteDatabase, "0002", "Glen Rangel", "Bachelor")
-	insertStudent(sqliteDatabase, "0003", "Martin Martins", "Master")
-	insertStudent(sqliteDatabase, "0004", "Alayna Armitage", "PHD")
-	insertStudent(sqliteDatabase, "0005", "Marni Benson", "Bachelor")
-	insertStudent(sqliteDatabase, "0006", "Derrick Griffiths", "Master")
-	insertStudent(sqliteDatabase, "0007", "Leigh Daly", "Bachelor")
-	insertStudent(sqliteDatabase, "0008", "Marni Benson", "PHD")
-	insertStudent(sqliteDatabase, "0009", "Klay Correa", "Bachelor")
-
-        // DISPLAY INSERTED RECORDS
-	displayStudents(sqliteDatabase)
 }
 
-func createTable(db *sql.DB) {
-	createStudentTableSQL := `CREATE TABLE student (
-		"idStudent" integer NOT NULL PRIMARY KEY AUTOINCREMENT,		
-		"code" TEXT,
-		"name" TEXT,
-		"program" TEXT		
-	  );` // SQL Statement for Create Table
+func mainHandle(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("HOM")
+	// userName := r.FormValue("name")
+	// password := r.FormValue("password")
+	data := "test"
+	tpl := template.Must(template.ParseFiles("assets/index.html"))
 
-	log.Println("Create student table...")
-	statement, err := db.Prepare(createStudentTableSQL) // Prepare SQL Statement
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	statement.Exec() // Execute SQL Statements
-	log.Println("student table created")
-}
-
-// We are passing db reference connection from main to our method with other parameters
-func insertStudent(db *sql.DB, code string, name string, program string) {
-	log.Println("Inserting student record ...")
-	insertStudentSQL := `INSERT INTO student(code, name, program) VALUES (?, ?, ?)`
-	statement, err := db.Prepare(insertStudentSQL) // Prepare statement. 
-                                                   // This is good to avoid SQL injections
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-	_, err = statement.Exec(code, name, program)
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-}
-
-func displayStudents(db *sql.DB) {
-	row, err := db.Query("SELECT * FROM student ORDER BY name")
+	err := tpl.Execute(w, data)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer row.Close()
-	for row.Next() { // Iterate and fetch the records from result cursor
-		var id int
-		var code string
-		var name string
-		var program string
-		row.Scan(&id, &code, &name, &program)
-		log.Println("Student: ", code, " ", name, " ", program)
+}
+
+func RegisterHandle(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Connect")
+
+	userName := r.FormValue("username")
+	newPost := r.FormValue("newPost")
+
+	if userName != "" && newPost != "" {
+		fmt.Println("tu rentre de dans wsh")
+		database(userName, newPost)
+		fmt.Println("tu sors de  wsh")
+		// http.Redirect(w, r, "/main", http.StatusSeeOther)
 	}
+
+	// var infoPost []string
+	// infoPost = append(infoPost, userName)
+	// infoPost = append(infoPost, newPost)
+	// println(&infoPost)
+
+	tpl := template.Must(template.ParseFiles("assets/test.html"))
+
+	data := oui{
+		Postee: getInfo(),
+	}
+
+	err := tpl.Execute(w, data)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+}
+
+func main() {
+	fs := http.FileServer(http.Dir("assets"))
+	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
+	http.Handle("/", fs)
+	http.HandleFunc("/main", mainHandle)
+
+	http.HandleFunc("/post", RegisterHandle)
+	http.ListenAndServe(":8082", nil)
 }
