@@ -13,67 +13,74 @@
             var data = "{{.Postee}}"
             data = data.slice(1,-1)
             console.log(data);
-            const idRegex = /[0-9]*/g
-            var id = data.match(idRegex)
-            console.log(id);
+
+            const idRegex = /(?<={)\d+/g
+            const pseudoRegex = /(?<=\d\s\s)\w+(?=\s\s)/g
+
+            var id = data.match(idRegex) // id ok
+            var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
+
+            var postForm1 = data.replace(/(?<=\d\s\s)\w+(?=\s\s)/g,"")
+            var postForm2 = postForm1.replace(/(?<={)\d+\s\s\s\s/g,"")
+            postForm2 = postForm2.slice(1,-1)
+            var postFinalForm = postForm2.split("} {") // post ok even with special char
+
+            console.log(pseudo);
             var avatar = "https://comicvine.gamespot.com/a/uploads/scale_small/11117/111178336/7120430-4520896815-latest";
-            // var Pseudo = 'zzz';
-            // var Title = "zzz"
             var CreationDate = new Date("")
-            // var description = "zzz"
-            // console.log(description);
-            // console.log(Pseudo);
-            // for (i = 0; i <= 8; i++) {
-
-            //     // le conteneur de la div
-            //     var div1 = document.createElement('div');
-            //     div1.setAttribute('class', 'large-7 small-8 column lpad')
-            //     div1.id = i;
-            //     // div1.onclick = function() {
-            //     //     redirect(this.id);
-            //     // }
-
-            //     // Le cadre de l'avatar
-            //     var div2 = document.createElement('div');
-            //     div2.setAttribute('class', 'large-1 column lpad')
-
-            //     // La photo de l'avatar
-            //     var divimage = document.createElement('img');
-            //     divimage.setAttribute('class', 'icon-file')
-            //     divimage.setAttribute('id', 'img')
-            //     divimage.setAttribute('src', avatar)
-            //     divimage.setAttribute('alt', 'Music')
-
-            //     // nom de l'auteur du post
-            //     var div3 = document.createElement('div');
-            //     var txt3 = document.createTextNode(Pseudo)
-            //     div3.setAttribute('class', 'card-header')
-            //     div3.appendChild(txt3)
-
-            //     // titre du topic
-            //     var div4 = document.createElement('div');
-            //     var txt4 = document.createTextNode(Title)
-            //     div4.setAttribute('class', 'overflow-control')
-            //     div4.appendChild(txt4)
-
-            //     // description du topic
-            //     var div5 = document.createElement('div');
-            //     var txt5 = document.createTextNode(description)
-            //     div5.setAttribute('class', 'overflow-control')
-            //     div5.appendChild(txt5)
 
 
-            //     var parent = document.getElementById("start")
+            for (i = 0; i <= id.length -1; i++) {
 
-            //     // On assemble les divs
-            //     document.body.appendChild(div1);
-            //     parent.appendChild(div1)
-            //     div1.appendChild(div2)
-            //     div1.appendChild(div3)
-            //     div1.appendChild(div4)
-            //     div1.appendChild(div5)
-            //     div2.appendChild(divimage)
-            // }
+                // le conteneur de la div
+                var div1 = document.createElement('div');
+                div1.setAttribute('class', 'large-7 small-8 column lpad')
+                div1.id = i;
+                // div1.onclick = function() {
+                //     redirect(this.id);
+                // }
+
+                // Le cadre de l'avatar
+                var div2 = document.createElement('div');
+                div2.setAttribute('class', 'large-1 column lpad')
+
+                // La photo de l'avatar
+                var divimage = document.createElement('img');
+                divimage.setAttribute('class', 'icon-file')
+                divimage.setAttribute('id', 'img')
+                divimage.setAttribute('src', avatar)
+                divimage.setAttribute('alt', 'Music')
+
+                // nom de l'auteur du post
+                var div3 = document.createElement('div');
+                var txt3 = document.createTextNode(id[i])
+                div3.setAttribute('class', 'card-header')
+                div3.appendChild(txt3)
+
+                // titre du topic
+                var div4 = document.createElement('div');
+                var txt4 = document.createTextNode(pseudo[i])
+                div4.setAttribute('class', 'overflow-control')
+                div4.appendChild(txt4)
+
+                // description du topic
+                var div5 = document.createElement('div');
+                var txt5 = document.createTextNode(postFinalForm[i])
+                div5.setAttribute('class', 'overflow-control')
+                div5.appendChild(txt5)
+
+
+                var parent = document.getElementById("start")
+
+                // On assemble les divs
+                document.body.appendChild(div1);
+                parent.appendChild(div1)
+                div1.appendChild(div2)
+                div1.appendChild(div3)
+                div1.appendChild(div4)
+                div1.appendChild(div5)
+                div2.appendChild(divimage)
+            }
         }
     </script>
 </head>
