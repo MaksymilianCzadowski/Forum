@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+        integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+</head>
+
+<body>
+    <a href="/post">Ici</a>
+</body>
+
+<div>
+    <div id="thread__wrapper">
+
+        <!-- Banderole d'avertissement pour le spoiler -->
+        <div id="comment-policy" class="comment-policy publisher-anchor-color">
+            <div class="content">
+                <p class="comment-policy-title text-bold">Watch Krom Chat Comment Policy</p>
+                <p class="comment-policy-text">Be Civil. Do not post spoilers and Once again, if you
+                    see any offensive comments report/flag them.
+                <p class="comment-policy-link"></p>
+                </p>
+            </div><span aria-hidden="true" class="icon icon-chat-bubble"></span>
+        </div>
+        <div id="highlighted-post" data-tracking-area="highlighted" class="highlighted-post" style="display: none;">
+        </div>
+        <div id="global-alert"></div>
+        <div id="tos__container"></div>
+        <!-- Fin de la Banderole  -->
+
+
+        <section id="conversation" data-role="main" data-tracking-area="main">
+            <div class="nav nav-secondary" data-tracking-area="secondary-nav">
+                <ul>
+
+                    <!-- Recommended Link -->
+                    <li id="recommend-button" class="nav-tab nav-tab--secondary recommend dropdown">
+                        <div class="thread-likes">
+                            <div><a href="#" data-action="recommend" title="Recommend this discussion"
+                                    class="dropdown-toggle "><span class="label label-default"><span
+                                            class="recommend-icon icon-heart-empty"></span> Recommend</span><span
+                                        class="label label-recommended"><span class="recommend-icon icon-heart"></span>
+                                        Recommended</span> <span class="label label-count">45</span></a>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- Fin du recommended Link (Le Like) -->
+
+                    <!-- <li id="thread-share-bar" class="nav-tab nav-tab--secondary share-bar hidden-sm">
+                        <div class="thread-share-bar-buttons"><span class="thread-share__button share-twitter"
+                                data-action="share:twitter" tabindex="0"><span class="icon-twitter"></span><span
+                                    class="share-text">Tweet</span></span><span
+                                class="thread-share__button share-facebook" data-action="share:facebook"
+                                tabindex="0"><span class="icon-facebook"></span><span
+                                    class="share-text">Share</span></span></div>
+                    </li> -->
+
+                    <!-- Sort By Best/Newest/Oldest -->
+                    <li data-role="post-sort" class="nav-tab nav-tab--secondary dropdown sorting pull-right"><a href="#"
+                            class="dropdown-toggle" data-toggle="dropdown">Sort by Best<span class="caret"></span></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li class="selected"><a href="#" data-action="sort" data-sort="popular">Best<i
+                                        aria-hidden="true" class="icon-checkmark"></i></a></li>
+                            <li class=""><a href="#" data-action="sort" data-sort="desc">Newest<i aria-hidden="true"
+                                        class="icon-checkmark"></i></a></li>
+                            <li class=""><a href="#" data-action="sort" data-sort="asc">Oldest<i aria-hidden="true"
+                                        class="icon-checkmark"></i></a></li>
+                        </ul>
+                    </li>
+                    <!-- Fin de sort -->
+
+                </ul>
+            </div>
+            <div id="posts">
+                <div id="form" class="textarea-outer-wrapper--top-level">
+                    <form class="reply">
+                        <div class="postbox">
+                            <div role="alert"></div>
+                            <div class="ratings-wrapper" data-role="ratings-container"></div>
+                            <div class="compose-wrapper">
+                                <div class="avatar"><span class="user"><img data-role="user-avatar"
+                                            src="//a.disquscdn.com/1621619202/images/noavatar92.png"
+                                            alt="Avatar"></span></div>
+                                <div class="textarea-outer-wrapper">
+                                    <div class="textarea-wrapper" data-role="textarea" dir="auto">
+                                        <div><span class="placeholder">Join the discussion…</span>
+                                            <div class="textarea" tabindex="0" role="textbox" aria-multiline="true"
+                                                contenteditable="PLAINTEXT-ONLY" data-role="editable"
+                                                aria-label="Join the discussion…"
+                                                style="overflow: auto; overflow-wrap: break-word; max-height: 350px;">
+                                                <p><br></p>
+                                            </div>
+                                            <div style="display: none;">
+                                                <ul class="user-mention__list" id="user-mention-list">
+                                                    <li class="header user-mention__header">
+                                                        <h5>in this conversation</h5>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div data-role="drag-drop-placeholder" class="media-drag-hover"
+                                            style="display: none;">
+                                            <div class="drag-text">⬇ Drag and drop your images here to upload them.
+                                            </div>
+                                        </div><input type="checkbox" name="author-guest" style="display: none;">
+                                        <div class="g-recaptcha" data-role="grecaptcha-container"></div>
+                                        <div class="proceed" data-role="submit-btn-container"><button type="submit"
+                                                class="proceed__button btn submit" aria-label="Next"><span
+                                                    class="icon-proceed"></span>
+                                                <div class="spinner"></div>
+                                            </button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div><button class="alert alert--realtime" data-role="realtime-notification"
+                    style="display: none;"></button>
+                <!-- avatar -->
+                <div>
+                    <div class="avatar hovercard"><a href="https://disqus.com/by/disqus_dUJCx6ATdo/"
+                            data-action="profile" data-tab="" data-username="disqus_dUJCx6ATdo" target="_blank"
+                            rel="noopener noreferrer" class="user"><img data-role="user-avatar" data-user="326113714"
+                                src="https://c.disquscdn.com/uploads/users/32611/3714/avatar92.jpg?1592820717"
+                                alt="Avatar"></a>
+                    </div>
+                    <!-- post -->
+                    <div class="post-body">
+                        <header class="comment__header"><span class="post-byline"><span> <span
+                                        class="author publisher-anchor-color"><a
+                                            href="https://disqus.com/by/disqus_dUJCx6ATdo/" data-action="profile"
+                                            data-tab="" data-username="disqus_dUJCx6ATdo" target="_blank"
+                                            rel="noopener noreferrer">Some Guy</a></span>
+                                </span></span> <span class="post-meta"><span class="bullet time-ago-bullet"
+                                    aria-hidden="true">•</span> <a
+                                    href="https://readberserk.com/chapter/berserk-chapter-363/#comment-5155481999"
+                                    data-role="relative-time" class="time-ago"
+                                    title="Tuesday, November 17, 2020 10:00 PM">6
+                                    months ago</a> </span>
+                        </header>
+                        <div class="post-body-inner">
+                            <div class="post-message-container" data-role="message-container">
+                                <div class="publisher-anchor-color" data-role="message-content">
+                                    <div class="publisher-anchor-color" data-role="message-content">
+                                        <div class="post-message " data-role="message" dir="auto">
+                                            <div>
+                                                <p>aye man took me a bit to finally read all of this and yeah it
+                                                    was definitely worth every minute I spent reading, hope
+                                                    miura rests easy forever</p>
+                                            </div>
+                                        </div><span class="post-media">
+                                            <ul data-role="post-media-list"></ul>
+                                        </span>
+                                    </div>
+                                    <!-- Image container -->
+
+
+                                    <div class="media-container media-mode-deferred media-activated">
+
+                                                <div class="media-content-loader" data-role="content-loader">
+                                                </div>
+                                                <div data-role="content-placeholder"
+                                                    class="media-content-placeholder media-Disquscdn "
+                                                    style="height: auto;"><a
+                                                        href="https://uploads.disquscdn.com/images/9a314f1789a85b5d3705d996ddf1c522bdf2af35a82a42bc2df88f8ea212ab04.png"
+                                                        target="_blank" rel="nofollow">
+                                                        <img src="//uploads.disquscdn.com/images/9a314f1789a85b5d3705d996ddf1c522bdf2af35a82a42bc2df88f8ea212ab04.png?w=800&amp;h=463"
+                                                            alt="Thumbnail" height="463">
+                                                    </a></div>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+</html>
