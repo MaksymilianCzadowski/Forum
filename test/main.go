@@ -14,25 +14,6 @@ func login(logUser string, logPassword string) {
 	var password string
 	var id int
 
-<<<<<<< HEAD
-	database, _ :=
-		sql.Open("sqlite3", "data.db")
-	rows, _ :=
-		database.Query("SELECT id, username, email, password FROM people")
-	for rows.Next() {
-		rows.Scan(&id, &username, &email, &password)
-		fmt.Println(strconv.Itoa(id) + ": " + username + " " + email + " " + password)
-		if logUser == username && logPassword == password {
-			fmt.Println("ok log id =", id)
-			break
-		}
-	}
-	database.Close()
-}
-
-func main() {
-	login("PetitCul_Pâle", "123456789")
-=======
 func main() {
 	os.Remove("sqlite-database.db") // I delete the file to avoid duplicated records. 
                                     // SQLite is a file based database.
@@ -63,7 +44,6 @@ func main() {
 
         // DISPLAY INSERTED RECORDS
 	displayStudents(sqliteDatabase)
->>>>>>> 431cda5c7b25cfca91d844522e3c08ca8edb8d86
 }
 
 func createTable(db *sql.DB) {
