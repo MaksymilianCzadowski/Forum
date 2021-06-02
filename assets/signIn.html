@@ -1,14 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- <link rel="stylesheet" href="style/connect.css"> -->
+    <title>Register</title>
+
+    <script type="text/javascript">
+
+
+       
+
+        function create() {
+            var data = "{{.Poste}}"
+            console.log(data);
+            data = data.slice(1, -1)
+
+            const idRegex = /(?<={)\d+/g
+            const pseudoRegex = /(?<=\d\s\s)\w+(?=\s\s)/g
+
+            var id = data.match(idRegex) // id ok
+            var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
+
+            var postForm1 = data.replace(/(?<=\d\s\s)\w+(?=\s\s)/g, "")
+            var postForm2 = postForm1.replace(/(?<={)\d+\s\s\s\s/g, "")
+            postForm2 = postForm2.slice(1, -1)
+            var postFinalForm = postForm2.split("} {") // post ok even with special char
+
+            var avatar = "https://comicvine.gamespot.com/a/uploads/scale_small/11117/111178336/7120430-4520896815-latest";
+            var CreationDate = new Date("")
+
+
+            for (i = 0; i <= id.length - 1; i++) {
+
+                // le conteneur de la div
+                var div1 = document.createElement('div');
+                div1.setAttribute('class', 'large-7 small-8 column lpad')
+                div1.id = i;
+                div1.onclick = function() {
+                    redirect(this.id);
+                }
+
+                // Le cadre de l'avatar
+                var div2 = document.createElement('div');
+                div2.setAttribute('class', 'large-1 column lpad')
+
+                // La photo de l'avatar
+                var divimage = document.createElement('img');
+                divimage.setAttribute('class', 'icon-file')
+                divimage.setAttribute('id', 'img')
+                divimage.setAttribute('src', avatar)
+                divimage.setAttribute('alt', 'Music')
+
+                // nom de l'auteur du post
+                var div3 = document.createElement('div');
+                var txt3 = document.createTextNode(id[i])
+                div3.setAttribute('class', 'card-header')
+                div3.appendChild(txt3)
+
+                // titre du topic
+                var div4 = document.createElement('div');
+                var txt4 = document.createTextNode(pseudo[i])
+                div4.setAttribute('class', 'overflow-control')
+                div4.appendChild(txt4)
+
+                // description du topic
+                var div5 = document.createElement('div');
+                var txt5 = document.createTextNode(postFinalForm[i])
+                div5.setAttribute('class', 'overflow-control')
+                div5.appendChild(txt5)
+
+                // var div6 = document.createElement('button');
+                // var txt6 = document.createTextNode('like')
+                // div6.setAttribute('class', 'like' + i)
+                // div6.appendChild(txt6)
+
+                // var div7 = document.createElement('button');
+                // var txt7 = document.createTextNode('dislike')
+                // div7.setAttribute('class', 'dislike')
+                // div7.appendChild(txt7)
+
+
+                var parent = document.getElementById("start")
+
+                // On assemble les divs
+                document.body.appendChild(div1);
+                parent.appendChild(div1)
+                div1.appendChild(div2)
+                div1.appendChild(div3)
+                div1.appendChild(div4)
+                div1.appendChild(div5)
+                // div1.appendChild(div6)
+                // div1.appendChild(div7)
+                div2.appendChild(divimage)
+
+
+            }
+        }
+        function redirect(id) {
+            window.location.href = '/index?' + String(id);
+        }
+
+    </script>
 </head>
+
 <body>
-    <h1>Welcome {{.Username}}</h1>
-    <a href="/main">
-        <button>logout</a></button>
+
+        <a href="/main">log out</a>
+
+    <!-- <button class="like">Like👍</button>
+    <button class="like">Like👍</button>
+    <button class="dislike">Dislike👎</button> -->
+    
+    <div>
+
+        <form method="POST">
+
+            <div>
+
+                <div>
+
+                    <div>
+                        <h1>Create an account</h1>
+                    </div>
+
+                    <div>
+                        <label>
+                            <span>User name</span>
+                            <input type="text" name="username" id="user" required>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <span>newPost</span>
+                            <input type="text" name="newPost" id="newPost" required>
+                        </label>
+                    </div>
+
+
+                    <button>Register</button>
+                    <div>
+                        {{.Poste}}
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+        <div class="grix xs1 md2 lg3" id="start">
+            <script type="text/javascript">
+                create();
+            </script>
+
+        </div>
+
+    </div>
+
 </body>
+
+<!-- <script>
+    const getLike = document.querySelectorAll('.like');
+    console.log(getLike);
+    const getdisLike = document.querySelector('.dislike');
+
+    var like = 0;
+    var dislike = 0;
+    var clickYetLike = false;
+    var clickYetDislike = false;
+
+    increaseLike = () => {
+        if (clickYetLike == false && clickYetDislike == true) {
+            like++;
+            dislike--;
+            clickYetLike = true
+            clickYetDislike = false
+            console.log("AAAAAAAAAAAAAA");
+        }
+        else if (clickYetLike == true) {
+            like--;
+            clickYetLike = false;
+            console.log("BBBBBBBBBBBBBBBBB");
+        }
+        else {
+            like++;
+            clickYetLike = true
+            console.log("CCCCCCCCCCCCCCCCCCCCC");
+
+        }
+        getLike[0].innerHTML = `Like👍 | ${like}`
+        getdisLike.innerHTML = `Dislike👎| ${dislike}`
+
+    }
+    decreaseLike = () => {
+        if (clickYetDislike == false && clickYetLike == true) {
+            dislike++;
+            like--;
+            clickYetDislike = true
+            clickYetLike = false
+        }
+        else if (clickYetDislike == true) {
+            dislike--;
+            clickYetDislike = false;
+        } else {
+            dislike++
+            clickYetDislike = true
+        }
+        getLike[0].innerHTML = `Like👍 | ${like}`
+        getdisLike.innerHTML = `Dislike👎| ${dislike}`
+    }
+
+
+
+
+    likeClick = () => {
+        increaseLike()
+    }
+
+    dislikeClick = () => {
+        decreaseLike()
+    }
+    getLike[0].addEventListener(('click'), likeClick)
+    getdisLike.addEventListener(('click'), dislikeClick)
+</script> -->
+
 </html>

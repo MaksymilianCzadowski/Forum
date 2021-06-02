@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
@@ -18,6 +19,23 @@ type Login struct {
 
 type Err struct {
 	Nope string
+}
+
+type postInfo struct {
+	idx     int
+	pseudo  string
+	message string
+}
+type postMessage struct {
+	id      int
+	image   string
+	pseudo  string
+	titre   string
+	message string
+}
+
+type oui struct {
+	Poste []postMessage
 }
 
 var dataLogin Login
@@ -46,6 +64,29 @@ func database(username string, email string, password string) {
 		// fmt.Println(strconv.Itoa(id) + ": " + username + " " + email + " " + password)
 	}
 	database.Close()
+
+}
+
+func databasePost(username string, newPost string) {
+
+	database, _ :=
+		sql.Open("sqlite3", "data.db")
+	statement, _ :=
+		database.Prepare("CREATE TABLE IF NOT EXISTS post (id INTEGER PRIMARY KEY, username TEXT, newPost TEXT)")
+	statement.Exec()
+	statement, _ =
+		database.Prepare("INSERT INTO post (username, newPost) VALUES (?, ?)")
+	fmt.Println("ici")
+	statement.Exec(username, newPost)
+	fmt.Println("G TROUVER VOUS ETES NUL")
+	rows, _ :=
+		database.Query("SELECT id, username, newPost FROM post")
+	var id int
+	var test []string
+	for rows.Next() {
+		rows.Scan(&id, &username, &newPost)
+		test = append(test, strconv.Itoa(id)+": "+username+" "+newPost+"\n")
+	}
 
 }
 
@@ -159,15 +200,72 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func account(w http.ResponseWriter, r *http.Request) {
+func PostHandle(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Connect")
+
+	userName := r.FormValue("username")
+	newPost := r.FormValue("newPost")
+
+	if userName != "" && newPost != "" {
+		databasePost(userName, newPost)
+		fmt.Println("tu sors de  wsh")
+		// http.Redirect(w, r, "/main", http.StatusSeeOther)
+	}
+
+	// var infoPost []string
+	// infoPost = append(infoPost, userName)
+	// infoPost = append(infoPost, newPost)
+	// println(&infoPost)
 
 	tpl := template.Must(template.ParseFiles("assets/signIn.html"))
 
-	err := tpl.Execute(w, dataLogin)
+	data := oui{
+		Poste: getPostInfo(),
+	}
+
+	err := tpl.Execute(w, data)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 }
+
+func getPostInfo() []postMessage {
+
+	database, _ :=
+		sql.Open("sqlite3", "data.db")
+	rows, _ :=
+		database.Query("SELECT id, username, newPost FROM post")
+
+	var _id int
+	var test []postMessage
+	var _pseudo string
+	var _message string
+	for rows.Next() {
+		rows.Scan(&_id, &_pseudo, &_message)
+		data := postMessage{
+			id:      _id,
+			pseudo:  _pseudo,
+			message: _message,
+		}
+		test = append(test, data)
+	}
+
+	// fmt.Println(strconv.Itoa(id) + ": " + username + " " + newPost)
+	// fmt.Println(test)
+	return test
+
+}
+
+// func account(w http.ResponseWriter, r *http.Request) {
+
+// 	tpl := template.Must(template.ParseFiles("assets/signIn.html"))
+
+// 	err := tpl.Execute(w, dataLogin)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// }
 
 func main() {
 	fs := http.FileServer(http.Dir("assets"))
@@ -175,6 +273,6 @@ func main() {
 	http.Handle("/", fs)
 	http.HandleFunc("/main", LoginHandle)
 	http.HandleFunc("/connect", RegisterHandle)
-	http.HandleFunc("/account", account)
+	http.HandleFunc("/account", PostHandle)
 	http.ListenAndServe(":8080", nil)
 }
