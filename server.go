@@ -35,7 +35,8 @@ type postMessage struct {
 }
 
 type oui struct {
-	Poste []postMessage
+	Poste   []postMessage
+	Comment []postMessage
 }
 
 var dataLogin Login
@@ -44,24 +45,19 @@ func database(username string, email string, password string) {
 
 	database, _ :=
 		sql.Open("sqlite3", "data.db")
-	// fmt.Println("openData base")
 	statement, _ :=
 		database.Prepare("CREATE TABLE IF NOT EXISTS people (id INTEGER PRIMARY KEY, username TEXT, email TEXT, password TEXT)")
 	statement.Exec()
 	statement, _ =
 		database.Prepare("INSERT INTO people (username, email, password) VALUES (?, ?, ?)")
 	statement.Exec(username, email, password)
-	// fmt.Println("préparation de l'ajout")
-	// fmt.Println(username)
-	// fmt.Println(email)
-	// fmt.Println(password)
+
 	rows, _ :=
 		database.Query("SELECT id, username, email, password FROM people")
 	var id int
 	fmt.Println("select data")
 	for rows.Next() {
 		rows.Scan(&id, &username, &email, &password)
-		// fmt.Println(strconv.Itoa(id) + ": " + username + " " + email + " " + password)
 	}
 	database.Close()
 
@@ -78,7 +74,6 @@ func databasePost(username string, newPost string) {
 		database.Prepare("INSERT INTO post (username, newPost) VALUES (?, ?)")
 	fmt.Println("ici")
 	statement.Exec(username, newPost)
-	fmt.Println("G TROUVER VOUS ETES NUL")
 	rows, _ :=
 		database.Query("SELECT id, username, newPost FROM post")
 	var id int
@@ -86,6 +81,28 @@ func databasePost(username string, newPost string) {
 	for rows.Next() {
 		rows.Scan(&id, &username, &newPost)
 		test = append(test, strconv.Itoa(id)+": "+username+" "+newPost+"\n")
+	}
+
+}
+
+func databaseComment(username string, newComment string) {
+
+	database, _ :=
+		sql.Open("sqlite3", "data.db")
+	statement, _ :=
+		database.Prepare("CREATE TABLE IF NOT EXISTS comment (id INTEGER PRIMARY KEY, username TEXT, newComment TEXT)")
+	statement.Exec()
+	statement, _ =
+		database.Prepare("INSERT INTO comment (username, newComment) VALUES (?, ?)")
+	fmt.Println("ici")
+	statement.Exec(username, newComment)
+	rows, _ :=
+		database.Query("SELECT id, username, newComment FROM comment")
+	var id int
+	var test []string
+	for rows.Next() {
+		rows.Scan(&id, &username, &newComment)
+		test = append(test, strconv.Itoa(id)+": "+username+" "+newComment+"\n")
 	}
 
 }
@@ -209,18 +226,37 @@ func PostHandle(w http.ResponseWriter, r *http.Request) {
 	if userName != "" && newPost != "" {
 		databasePost(userName, newPost)
 		fmt.Println("tu sors de  wsh")
-		// http.Redirect(w, r, "/main", http.StatusSeeOther)
 	}
-
-	// var infoPost []string
-	// infoPost = append(infoPost, userName)
-	// infoPost = append(infoPost, newPost)
-	// println(&infoPost)
 
 	tpl := template.Must(template.ParseFiles("assets/signIn.html"))
 
 	data := oui{
 		Poste: getPostInfo(),
+	}
+
+	err := tpl.Execute(w, data)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+}
+
+func CommentHandle(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Connect")
+
+	userName := r.FormValue("username")
+	newComment := r.FormValue("newComment")
+
+	if userName != "" && newComment != "" {
+		databaseComment(userName, newComment)
+		fmt.Println("tu sors de  wsh")
+	}
+
+	tpl := template.Must(template.ParseFiles("assets/comment.html"))
+
+	data := oui{
+		Poste:   getPostInfo(),
+		Comment: getCommentInfo(),
 	}
 
 	err := tpl.Execute(w, data)
@@ -251,10 +287,31 @@ func getPostInfo() []postMessage {
 		test = append(test, data)
 	}
 
-	// fmt.Println(strconv.Itoa(id) + ": " + username + " " + newPost)
-	// fmt.Println(test)
 	return test
 
+}
+
+func getCommentInfo() []postMessage {
+
+	database, _ :=
+		sql.Open("sqlite3", "data.db")
+	rows, _ :=
+		database.Query("SELECT id, username, newComment FROM comment")
+
+	var _id int
+	var test []postMessage
+	var _pseudo string
+	var _message string
+	for rows.Next() {
+		rows.Scan(&_id, &_pseudo, &_message)
+		data := postMessage{
+			id:      _id,
+			pseudo:  _pseudo,
+			message: _message,
+		}
+		test = append(test, data)
+	}
+	return test
 }
 
 // func account(w http.ResponseWriter, r *http.Request) {
@@ -274,5 +331,6 @@ func main() {
 	http.HandleFunc("/main", LoginHandle)
 	http.HandleFunc("/connect", RegisterHandle)
 	http.HandleFunc("/account", PostHandle)
+	http.HandleFunc("/comment", CommentHandle)
 	http.ListenAndServe(":8080", nil)
 }
