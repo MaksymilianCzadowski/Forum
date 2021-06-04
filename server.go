@@ -85,20 +85,19 @@ func databasePost(username string, newPost string) {
 
 }
 
-func databaseComment(username string, newComment string) {
+func databaseComment(id int, username string, newComment string) {
 
 	database, _ :=
 		sql.Open("sqlite3", "data.db")
 	statement, _ :=
-		database.Prepare("CREATE TABLE IF NOT EXISTS comment (id INTEGER PRIMARY KEY, username TEXT, newComment TEXT)")
+		database.Prepare("CREATE TABLE IF NOT EXISTS comment (id INTEGER , username TEXT, newComment TEXT)")
 	statement.Exec()
 	statement, _ =
-		database.Prepare("INSERT INTO comment (username, newComment) VALUES (?, ?)")
+		database.Prepare("INSERT INTO comment (id, username, newComment) VALUES (?, ?, ?)")
 	fmt.Println("ici")
-	statement.Exec(username, newComment)
+	statement.Exec(id, username, newComment)
 	rows, _ :=
 		database.Query("SELECT id, username, newComment FROM comment")
-	var id int
 	var test []string
 	for rows.Next() {
 		rows.Scan(&id, &username, &newComment)
@@ -244,11 +243,12 @@ func PostHandle(w http.ResponseWriter, r *http.Request) {
 func CommentHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Connect")
 
+	id := r.FormValue("id")
 	userName := r.FormValue("username")
 	newComment := r.FormValue("newComment")
-
+	intId, _ := strconv.Atoi(id)
 	if userName != "" && newComment != "" {
-		databaseComment(userName, newComment)
+		databaseComment(intId, userName, newComment)
 		fmt.Println("tu sors de  wsh")
 	}
 
@@ -310,6 +310,7 @@ func getCommentInfo() []postMessage {
 			message: _message,
 		}
 		test = append(test, data)
+		fmt.Println(test)
 	}
 	return test
 }
