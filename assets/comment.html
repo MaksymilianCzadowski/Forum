@@ -93,14 +93,16 @@
     function create() {
 
         let id = getParameters();
-
         var data = "{{.Comment}}"
-        console.log(data);
+        // console.log(data);
         data = data.slice(1, -1)
 
         const idRegex = /(?<={)\d+/g
         const pseudoRegex = /(?<=\d\s\s)\w+(?=\s\s)/g
 
+
+        var _id = data.match(idRegex) // id ok
+        var save = data.match(idRegex)
         var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
 
         var postForm1 = data.replace(/(?<=\d\s\s)\w+(?=\s\s)/g, "")
@@ -110,9 +112,12 @@
 
         var avatar = "https://comicvine.gamespot.com/a/uploads/scale_small/11117/111178336/7120430-4520896815-latest";
         var CreationDate = new Date("")
+        
 
+        _id = _id.filter(item => id.includes(item));
+        console.log(data);
 
-        for (i = 0; i < postFinalForm.length; i++) {
+        for (i = 0; i < _id.length; i++) {
 
             // le conteneur de la div
             var div1 = document.createElement('div');
@@ -129,7 +134,7 @@
 
             // nom de l'auteur du post
             var div3 = document.createElement('div');
-            var txt3 = document.createTextNode(id)
+            var txt3 = document.createTextNode(_id[i])
             div3.appendChild(txt3)
 
             // titre du topic
@@ -193,7 +198,10 @@
     <a href="/account">Back</a>
     <div id="post">
         <script type="text/javascript">
+
             createPost();
+
+
         </script>
 
     </div>
@@ -232,7 +240,6 @@
                 <button>Register</button>
 
             </div>
-            {{.Comment}}
 
         </div>
         <div id="start">
