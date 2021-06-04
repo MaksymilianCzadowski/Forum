@@ -40,7 +40,7 @@
         postForm2 = postForm2.slice(1, -1)
         var postFinalForm = postForm2.split("} {") // post ok even with special char
 
-        var avatar = "https://comicvine.gamespot.com/a/uploads/scale_small/11117/111178336/7120430-4520896815-latest";
+        var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
         var CreationDate = new Date("")
 
         // le conteneur de la div
@@ -58,10 +58,10 @@
         divimage.setAttribute('alt', 'Music')
 
         // nom de l'auteur du post
-        var div3 = document.createElement('div');
-        var txt3 = document.createTextNode(_id[id])
-        div3.setAttribute('class', 'card-header')
-        div3.appendChild(txt3)
+        // var div3 = document.createElement('div');
+        // var txt3 = document.createTextNode(_id[id])
+        // div3.setAttribute('class', 'card-header')
+        // div3.appendChild(txt3)
 
         // titre du topic
         var div4 = document.createElement('div');
@@ -82,7 +82,7 @@
         document.body.appendChild(div1);
         parent.appendChild(div1)
         div1.appendChild(div2)
-        div1.appendChild(div3)
+        // div1.appendChild(div3)
         div1.appendChild(div4)
         div1.appendChild(div5)
         div2.appendChild(divimage)
@@ -110,14 +110,14 @@
         postForm2 = postForm2.slice(1, -1)
         var postFinalForm = postForm2.split("} {") // post ok even with special char
 
-        var avatar = "https://comicvine.gamespot.com/a/uploads/scale_small/11117/111178336/7120430-4520896815-latest";
+        var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
         var CreationDate = new Date("")
         
 
         _id = _id.filter(item => id.includes(item));
         console.log(data);
 
-        for (i = 0; i < _id.length; i++) {
+        for (i = 0; i < _id.length +1; i++) {
 
             // le conteneur de la div
             var div1 = document.createElement('div');
@@ -133,9 +133,9 @@
 
 
             // nom de l'auteur du post
-            var div3 = document.createElement('div');
-            var txt3 = document.createTextNode(_id[i])
-            div3.appendChild(txt3)
+            // var div3 = document.createElement('div');
+            // var txt3 = document.createTextNode(_id[i])
+            // div3.appendChild(txt3)
 
             // titre du topic
             var div4 = document.createElement('div');
@@ -164,7 +164,7 @@
             document.body.appendChild(div1);
             parent.appendChild(div1)
             div1.appendChild(div2)
-            div1.appendChild(div3)
+            // div1.appendChild(div3)
             div1.appendChild(div4)
             div1.appendChild(div5)
             // div1.appendChild(div6)
