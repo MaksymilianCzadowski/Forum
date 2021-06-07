@@ -112,12 +112,27 @@
 
         var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
         var CreationDate = new Date("")
-        
 
-        _id = _id.filter(item => id.includes(item));
         console.log(data);
 
-        for (i = 0; i < _id.length +1; i++) {
+        var idPost = []
+        var idPseudo = []
+        for (let ad = 0; ad < _id.length; ad++) {
+            idPost[ad] = _id[ad] +" "+ postFinalForm[ad]
+            idPseudo[ad] = _id[ad] +" "+ pseudo[ad]
+        }
+    
+
+        _id = _id.filter(item => id.includes(item));
+        // console.log(_id);
+
+        idPost = idPost.filter(item => id.includes(item[0]))
+        // console.log(idPost);
+
+        idPseudo = idPseudo.filter(item => id.includes(item[0]))
+        console.log(idPseudo);
+
+        for (i = 0; i < _id.length; i++) {
 
             // le conteneur de la div
             var div1 = document.createElement('div');
@@ -133,18 +148,18 @@
 
 
             // nom de l'auteur du post
-            // var div3 = document.createElement('div');
-            // var txt3 = document.createTextNode(_id[i])
-            // div3.appendChild(txt3)
+            var div3 = document.createElement('div');
+            var txt3 = document.createTextNode(_id[i])
+            div3.appendChild(txt3)
 
             // titre du topic
             var div4 = document.createElement('div');
-            var txt4 = document.createTextNode(pseudo[i])
+            var txt4 = document.createTextNode(idPseudo[i].slice(2))
             div4.appendChild(txt4)
 
             // description du topic
             var div5 = document.createElement('div');
-            var txt5 = document.createTextNode(postFinalForm[i])
+            var txt5 = document.createTextNode(idPost[i].slice(2))
             div5.appendChild(txt5)
 
             // var div6 = document.createElement('button');
