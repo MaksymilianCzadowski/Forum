@@ -8,7 +8,7 @@
     <!-- <link rel="stylesheet" href="style/connect.css"> -->
     <title>Register</title>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
 
 
 
@@ -102,12 +102,12 @@
             window.location.href = '/comment?' + String(id);
         }
 
-    </script>
+    </script> -->
 </head>
 
 <body>
 
-    <a href="/main">log out</a>
+    <a href="/logout">Logout</a>
 
     <!-- <button class="like">Like👍</button>
     <button class="like">Like👍</button>
@@ -115,38 +115,24 @@
 
     <div>
 
-        <form method="POST">
+       
 
             <div>
 
-                <div>
+            
 
                     <div>
-                        <h1>Create an account</h1>
+                        <h1>Welcome {{.username}}</h1>
                     </div>
 
                     <div>
-                        <label>
-                            <span>User name</span>
-                            <input type="text" name="username" id="user" required>
-                        </label>
+                        <a href="/CreateNewPost">Create a new post</a>
                     </div>
-
-                    <div>
-                        <label>
-                            <span>newPost</span>
-                            <input type="text" name="newPost" id="newPost" required>
-                        </label>
-                    </div>
-
-
-                    <button>Register</button>
-
-                </div>
+              
 
             </div>
 
-        </form>
+      
         <div class="grix xs1 md2 lg3" id="start">
             <script type="text/javascript">
                 create();

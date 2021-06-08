@@ -16,9 +16,11 @@
             <div class="login">
                 <div>
                     <input type="text" id="pseudo" name="username" placeholder="username" required>
+                    {{.UserNotFound}}
                 </div>
                 <div>
                     <input type="password" id="password" name="password" placeholder="password" required>
+                    {{.WrongPass}}
                 </div>
                 <div>
                     <button type="submit" value="login">Login</button>

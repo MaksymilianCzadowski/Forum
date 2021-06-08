@@ -2,9 +2,8 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" href="https://www.silhouette-illust.com/wp-content/uploads/2016/12/20267-300x300.jpg" 
-    type="image/gif"
-    sizes="16x16" />
+    <link rel="icon" href="https://www.silhouette-illust.com/wp-content/uploads/2016/12/20267-300x300.jpg"
+        type="image/gif" sizes="16x16" />
 
     <head>
         <meta charset="UTF-8">
@@ -13,51 +12,67 @@
         <title>Post Page</title>
 
         <link rel="stylesheet" href="/assets/style/post.css" />
-
+        
     </head>
 
 <body>
-    <div class="card-box">
-        <div class="container">
+    
 
-            <form method="POST" ACTION="POST">
-                <label for="to_post">Entrez votre Post </label><br>
-                <input type="text" id="to_post" name="to_post" value=""><br>
+            <form>
+                <h1>New post</h1>
+                <h3>Title</h3>
+                <input type="text" id="to_post" name="to_post" value="" required>
+                <h3>Comment</h3>
+                <textarea name="comment" id="comment" cols="30" rows="10" placeholder="Your comment"></textarea>
+                <fieldset>
+                    <legend>Check your tag(s) :</legend>
+                    <div class="tag">
+                        <input type="checkbox" id="coding" name="tagCod" value="coding">
+                        <label for="coding">Coding</label>
+                    </div>
+                    <div class="tag">
+                        <input type="checkbox" id="music" name="tagMusic" value="music">
+                        <label for="music">Music</label>
+                    </div>
+                    <div class="tag">
+                        <input type="checkbox" id="art" name="tagArt" value="art">
+                        <label for="art">Art</label>
+                    </div>
+                    <div class="tag">
+                        <input type="checkbox" id="sport" name="tagSport" value="sport">
+                        <label for="sport">Sport</label>
+                    </div>
+                    <div class="tag">
+                        <input type="checkbox" id="fashion" name="tagFashion" value="fashion">
+                        <label for="fashion">Fashion</label>
+                    </div>
+                    <div class="tag">
+                        <input type="checkbox" id="food" name="tagFood" value="food">
+                        <label for="food">Food</label>
+                    </div>
+                    <div class="tag">
+                        <input type="checkbox" id="cinema" name="tagCinema" value="cinema">
+                        <label for="cinema">Cinema</label>
+                    </div>
+                    <div class="tag">
+                        <input type="checkbox" id="cars" name="tagCars" value="cars">
+                        <label for="cars">Cars</label>
+                    </div>
 
-
+                </fieldset>
                 <br>
-                <div class="container">
-                    <div class="header">
+                <label for="avatar" class="file">Choose a picture:</label>
+                <input type="file"
+                    id="avatar" name="avatar"
+                    accept="image/png, image/jpeg">
 
-                        <div class="tags">
-                            <p>
-                                <a title="" href="" class="color5">Fashion</a>
-                                <a title="" href="" class="color2">Movies</a>
-                                <a title="" href="" class="color1">Music</a>
-                                <a title="" href="" class="color5">Sport</a>
-                                <a title="" href="" class="color3">Art</a>
-                                <a title="" href="" class="color1">Food</a>
-                                <a title="" href="" class="color5">Travels</a>
-                                <a title="" href="" class="color3">Life Style</a>
-                                <a title="" href="" class="color4">Cars</a>
-                                <a title="" href="" class="color4">Nature</a>
-                                <a title="" href="" class="color2">Web</a>
-                                <a title="" href="" class="color4">Friends</a>
-                                <a title="" href="" class="color2">Informatique</a>
-                                <a title="" href="" class="color3">Love</a>
-                                <a title="" href="" class="color1">Cinema</a>
-                                <a title="" href="" class="color3">Lazy</a>
-                                <a title="" href="" class="color5">Bad mood</a>
-                            </p>
-                        </div>
 
-                        <a href="test.html">
-                        <button type="button">Post</button>
-                         </a>
-                        </br>
+                <button type="submit">Create post</button>
+
+
 
             </form>
-
+       
 </body>
 
 </html>
