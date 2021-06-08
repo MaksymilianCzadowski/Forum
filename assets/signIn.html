@@ -9,35 +9,36 @@
     <!-- <link rel="stylesheet" href="style/connect.css"> -->
     <title>Register</title>
 
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
 
 
 
 
         function create() {
-            var data = "{{.Poste}}"
+            var data = "{{.post}}"
             data = data.slice(1, -1)
 
-            const idRegex = /(?<={)\d+/g
-            const pseudoRegex = /(?<=\d\s\s)\w+(?=\s\s)/g
-
+            console.log(data);
+            const idRegex = /(?<=\w\s)\d+(?=\s\w)/g
+            const pseudoRegex = /(?<={)\w+(?=\s\d)/g
+                        
             var id = data.match(idRegex) // id ok
             var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
-
-            var postForm1 = data.replace(/(?<=\d\s\s)\w+(?=\s\s)/g, "")
-            var postForm2 = postForm1.replace(/(?<={)\d+\s\s\s\s/g, "")
-            postForm2 = postForm2.slice(1, -1)
-            var postFinalForm = postForm2.split("} {") // post ok even with special char
+ 
+            var postForm1 = data.replace(/(?<={)\w+(?=\s\d)/g, "")
+            var postForm2 = postForm1.replace(/(?<=\s)\d+(?=\s\w)/g, "")
+            postForm2 = postForm2.slice(3, -1)
+            var postFinalForm = postForm2.split("} {  ") // post ok even with special char
 
             var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
             var CreationDate = new Date("")
-
+            
 
 
             for (let i = 0; i < id.length; i++) {
                 // le conteneur de la div
                 var div1 = document.createElement('div');
-                div1.setAttribute('class', 'large-7 small-8 column lpad')
+                // div1.setAttribute('class', 'large-7 small-8 column lpad')
                 div1.id = i;
                 div1.onclick = function () {
                     redirect(this.id);
@@ -45,11 +46,11 @@
 
                 // Le cadre de l'avatar
                 var div2 = document.createElement('div');
-                div2.setAttribute('class', 'large-1 column lpad')
+                // div2.setAttribute('class', 'large-1 column lpad')
 
                 // La photo de l'avatar
                 var divimage = document.createElement('img');
-                divimage.setAttribute('class', 'icon-file')
+                // divimage.setAttribute('class', 'icon-file')
                 divimage.setAttribute('id', 'img')
                 divimage.setAttribute('src', avatar)
                 divimage.setAttribute('alt', 'Music')
@@ -103,12 +104,12 @@
             window.location.href = '/comment?' + String(id);
         }
 
-    </script> -->
+    </script>
 </head>
 
 <body>
 
-    <div class="card mb-3" style="max-width: 540px;">
+    <!-- <div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0">
           <div class="col-md-4">
             <img src="..." alt="...">
@@ -121,7 +122,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     
     <a href="/logout">Logout</a>
 
@@ -145,7 +146,7 @@
                         <a href="/CreateNewPost">Create a new post</a>
                     </div>
               
-                    <div class="card mb-3" style="max-width: 540px;">
+                    <!-- <div class="card mb-3" style="max-width: 540px;">
                         <div class="row g-0">
                           <div class="col-md-4">
                             <img src="..." alt="...">
@@ -158,10 +159,14 @@
                             </div>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
             </div>
             {{.post}}
-            
+            <div id="start">
+            <script type="text/javascript">
+                create()
+            </script>
+            </div>
       
 
 
