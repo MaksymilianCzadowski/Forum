@@ -44,6 +44,12 @@ type PrintPost struct {
 	Comment  string
 }
 
+type Comment struct {
+	Usernamme string
+	Id        int
+	Container string
+}
+
 var allData []PrintPost
 var errToSend Err
 var store = sessions.NewCookieStore([]byte("mysession"))
@@ -255,7 +261,6 @@ func PostHandle(w http.ResponseWriter, r *http.Request) {
 		"username": userName,
 		"post":     allData,
 	}
-	// fmt.Println(allData[0])
 
 	tpl, _ := template.ParseFiles("assets/signIn.html")
 	tpl.Execute(w, data)
@@ -291,6 +296,12 @@ func CreatePostHandle(w http.ResponseWriter, r *http.Request) {
 	tpl.Execute(w, nil)
 }
 
+func commentHandle(w http.ResponseWriter, r *http.Request) {
+	var comment Comment
+	tpl := template.Must(template.ParseFiles("assets/comment.html"))
+	tpl.Execute(w, comment)
+}
+
 func main() {
 	createTablePeople()
 	createTablePost()
@@ -303,5 +314,6 @@ func main() {
 	http.HandleFunc("/connect", RegisterHandle)
 	http.HandleFunc("/account", PostHandle)
 	http.HandleFunc("/CreateNewPost", CreatePostHandle)
+	http.HandleFunc("/comments", commentHandle)
 	http.ListenAndServe(":8080", nil)
 }
