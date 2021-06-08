@@ -37,17 +37,19 @@ type Post struct {
 	TagCars    string
 }
 
+type PrintPost struct {
+	Username string
+	Id       int
+	Title    string
+	Comment  string
+}
+
+var allData []PrintPost
 var errToSend Err
 var store = sessions.NewCookieStore([]byte("mysession"))
 var dataLogin Login
 var tag Post
 var database, _ = sql.Open("sqlite3", "data.db")
-
-func checkErr(err error) {
-	if err != nil {
-		log.Println(err)
-	}
-}
 
 func createTablePeople() {
 	statement, _ :=
@@ -90,14 +92,13 @@ func addPost(username string) {
 	fmt.Println(tag.Comment)
 	// fmt.Println(tag.TagCars)
 
-	statement, err :=
+	statement, _ :=
 		database.Prepare("INSERT INTO post (username, title, comment) VALUES (?, ?, ?)")
 	// defer statement.Close()
 	statement.Exec(username, tag.Title, tag.Comment)
-	checkErr(err)
-	rows, err :=
+
+	rows, _ :=
 		database.Query("SELECT id, username, title, comment FROM post")
-	checkErr(err)
 	var id int
 	fmt.Println("select data")
 	for rows.Next() {
@@ -202,6 +203,18 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func getAllData() {
+	var temp PrintPost
+
+	rows, _ :=
+		database.Query("SELECT id, username, title, comment FROM post")
+
+	for rows.Next() {
+		rows.Scan(&temp.Id, &temp.Username, &temp.Title, &temp.Comment)
+		allData = append(allData, temp)
+	}
+}
+
 func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Register")
 
@@ -234,19 +247,21 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 
 func PostHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Connect")
+	getAllData()
 
 	session, _ := store.Get(r, "mysession")
 	userName := fmt.Sprintf("%v", session.Values["username"])
 	data := map[string]interface{}{
 		"username": userName,
+		"post":     allData,
 	}
+	// fmt.Println(allData[0])
 
-	tpl := template.Must(template.ParseFiles("assets/signIn.html"))
-
-	err := tpl.Execute(w, data)
-	if err != nil {
-		log.Fatal(err)
-	}
+	tpl, _ := template.ParseFiles("assets/signIn.html")
+	tpl.Execute(w, data)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 }
 
