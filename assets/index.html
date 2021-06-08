@@ -6,32 +6,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="style/style.css"> -->
 </head>
 
 <body>
 
-    <head>
-        <form method="POST">
-            <div class="login">
-                <div>
-                    <input type="text" id="pseudo" name="username" placeholder="username" required>
-                    {{.UserNotFound}}
-                </div>
-                <div>
-                    <input type="password" id="password" name="password" placeholder="password" required>
-                    {{.WrongPass}}
-                </div>
-                <div>
-                    <button type="submit" value="login">Login</button>
-                    
-                </div>
+    <div class="card" style="margin: 20px 20px ;">
+        <div class="card-body">
+            <form method="POST">
+                <h5 class="card-title text-center">Card title</h5>
+                <div class="login">
+                    <div>
+                        <input class="form-control" type="text" id="pseudo" name="username" placeholder="username"
+                            required>
+                        {{.UserNotFound}}
+                    </div>
+                    <div>
+                        <input class="form-control" type="password" id="password" name="password" placeholder="password"
+                            required>
+                        {{.WrongPass}}
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="submit" value="login">Login</button>
+                    </div>
+            </form>
+            <div class="text-center">
+                <a href="/connect">
+                    <button class="btn btn-primary">Register</button>
+                </a>
             </div>
-        </form>
-        <a href="/connect">
-            <button>Register</button>
-        </a>
-        
+        </div>
+    </div>
+    </div>
+    <form method="POST">
+        <div class="login">
+            <div>
+                <input type="text" id="pseudo" name="username" placeholder="username" required>
+                {{.UserNotFound}}
+            </div>
+            <div>
+                <input type="password" id="password" name="password" placeholder="password" required>
+                {{.WrongPass}}
+            </div>
+            <div>
+                <button type="submit" value="login">Login</button>
+
+            </div>
+        </div>
+    </form>
+    <a href="/connect">
+        <button>Register</button>
+    </a>
+
 
 </body>
 
