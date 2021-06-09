@@ -28,7 +28,6 @@
         var data = "{{.post}}"
         data = data.slice(1, -1)
 
-        console.log(data);
         // const idRegex = /(?<=\w\s)\d+(?=\s\w)/g
         const pseudoRegex = /(?<={)\w+(?=\s\d)/g
 
@@ -87,41 +86,35 @@
 
         let id = getParameters();
         var data = "{{.comments}}"
-        console.log(data);
         data = data.slice(1, -1)
 
         const idRegex = /(?<={)\d+/g
-        const pseudoRegex = /(?<=\d\s\s)\w+(?=\s\s)/g
+        const pseudoRegex = /(?<=\d\s)\w+(?=\s)/g
 
 
         var _id = data.match(idRegex) // id ok
-        var save = data.match(idRegex)
         var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
 
-        var postForm1 = data.replace(/(?<=\d\s\s)\w+(?=\s\s)/g, "")
-        var postForm2 = postForm1.replace(/(?<={)\d+\s\s\s\s/g, "")
+        var postForm1 = data.replace(/(?<=\d\s)\w+(?=\s)/g, "")
+        var postForm2 = postForm1.replace(/(?<={)\d+\s\s/g, "")
         postForm2 = postForm2.slice(1, -1)
         var postFinalForm = postForm2.split("} {") // post ok even with special char
 
         var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
         var CreationDate = new Date("")
-
-        console.log(data);
+        
 
         var idPost = []
-        var idPseudo = []
         for (let ad = 0; ad < _id.length; ad++) {
             idPost[ad] = _id[ad] + " " + postFinalForm[ad]
         }
 
 
         _id = _id.filter(item => id.includes(item));
-        console.log(_id);
+ 
 
         idPost = idPost.filter(item => id.includes(item[0]))
-        // console.log(idPost);
 
-        console.log(idPseudo);
 
         for (i = 0; i < _id.length; i++) {
 
@@ -139,9 +132,9 @@
 
 
             // nom de l'auteur du post
-            var div3 = document.createElement('div');
-            var txt3 = document.createTextNode(_id[i])
-            div3.appendChild(txt3)
+            // var div3 = document.createElement('div');
+            // var txt3 = document.createTextNode(_id[i])
+            // div3.appendChild(txt3)
 
             // description du topic
             var div5 = document.createElement('div');
@@ -204,7 +197,6 @@
         </div>
 
         <textarea name="comment" id="comment" cols="80" rows="10" placeholder="Your comment"></textarea>
-        <br>
         <button type="submit">send your comment</button>
     </form>
     <div id="acc">

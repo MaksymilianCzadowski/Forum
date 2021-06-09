@@ -5,58 +5,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/connect.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="style/connect.css"> -->
     <title>Register</title>
 </head>
 
 <body>
-    <div class="main-content">
 
-        <form class="form-register" method="POST">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Sign In</h5>
+                        <form class="form-signin">
+                            <div class="form-label-group">
+                                <input class="form-control mb-3" type="text" id="user" name="username"
+                                    placeholder="username" required>
+                            </div>
 
-            <div class="form-register-with-email">
+                            <div class="form-label-group">
+                                <input class="form-control mb-3" type="email" id="email" name="email"
+                                    placeholder="username" required>
+                            </div>
 
-                <div class="form-white-background">
+                            <div class="form-label-group">
+                                <input class="form-control mb-3" type="password" id="password" name="password"
+                                    placeholder="password" required>
+                            </div>
 
-                    <div class="form-title-row">
-                        <h1>Create an account</h1>
+                            {{.Nope}}
+
+                            <div class="text-center">
+                                <button class="btn btn-md btn-primary btn-block text-uppercase">Register</button>
+                            </div>
+                            <hr class="my-3">
+                        </form>
+                        <div class="text-center">
+                            <a href="/main">Already have an account? Login here &rarr;</a>
+
+                        </div>
                     </div>
-
-                    <div class="form-row">
-                        <label>
-                            <span>User name</span>
-                            <input type="text" name="username" id="user" required>
-                        </label>
-                    </div>
-
-                    <div class="form-row">
-                        <label>
-                            <span>Email</span>
-                            <input type="email" name="email" id="email" required>
-                        </label>
-                    </div>
-
-                    <div class="form-row">
-                        <label>
-                            <span>Password</span>
-                            <input type="password" name="password" id="password" required>
-                        </label>
-                    </div>
-
-                    {{.Nope}}
-
-                    <button>Register</button>
-
                 </div>
-
-                <a href="/main" class="form-log-in-with-existing">Already have an account? Login here &rarr;</a>
-
             </div>
-
-        </form>
-
+        </div>
     </div>
-
 </body>
+
+
 
 </html>
