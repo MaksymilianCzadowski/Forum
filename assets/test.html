@@ -105,15 +105,19 @@
         
 
         var idPost = []
+        var idPseudo = []
         for (let ad = 0; ad < _id.length; ad++) {
             idPost[ad] = _id[ad] + " " + postFinalForm[ad]
+            idPseudo[ad] = _id[ad] + " " + pseudo[ad]
         }
+        console.log(idPseudo);
 
 
         _id = _id.filter(item => id.includes(item));
  
 
         idPost = idPost.filter(item => id.includes(item[0]))
+        idPseudo = idPseudo.filter(item => id.includes(item[0]))
 
 
         for (i = 0; i < _id.length; i++) {
@@ -135,6 +139,12 @@
             // var div3 = document.createElement('div');
             // var txt3 = document.createTextNode(_id[i])
             // div3.appendChild(txt3)
+
+            
+            // description du topic
+            var div4 = document.createElement('div');
+            var txt4 = document.createTextNode(idPseudo[i].slice(2))
+            div4.appendChild(txt4)
 
             // description du topic
             var div5 = document.createElement('div');
@@ -159,7 +169,7 @@
             parent.appendChild(div1)
             div1.appendChild(div2)
             // div1.appendChild(div3)
-            // div1.appendChild(div4)
+            div1.appendChild(div4)
             div1.appendChild(div5)
             // div1.appendChild(div6)
             // div1.appendChild(div7)
