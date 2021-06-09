@@ -6,7 +6,6 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/sessions"
 	_ "github.com/mattn/go-sqlite3"
@@ -43,12 +42,13 @@ type PrintPost struct {
 }
 
 type Comments struct {
-	id       int
-	text     string
+	id       string
 	username string
+	text     string
 }
 
 var allData []PrintPost
+var commentData []Comments
 var errToSend Err
 var store = sessions.NewCookieStore([]byte("mysession"))
 var dataLogin Login
@@ -71,7 +71,7 @@ func createTablePost() {
 
 func createTableComment() {
 	statement, _ :=
-		database.Prepare("CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, username TEXT, comment TEXT)")
+		database.Prepare("CREATE TABLE IF NOT EXISTS comments (id TEXT , username TEXT, newComment TEXT)")
 	defer statement.Close()
 	statement.Exec()
 }
@@ -80,7 +80,7 @@ func addUser(username string, email string, password string) {
 
 	statement, _ :=
 		database.Prepare("INSERT INTO people (username, email, password) VALUES (?, ?, ?)")
-	defer statement.Close()
+	// defer statement.Close()
 	statement.Exec(username, email, password)
 
 	lastRow := database.QueryRow("SELECT * FROM user WHERE id=(SELECT max(id) FROM user)")
@@ -97,40 +97,36 @@ func addPost(username string) {
 
 	statement, _ :=
 		database.Prepare("INSERT INTO post (username, comment) VALUES (?, ?)")
-	// defer statement.Close()
 	statement.Exec(username, tag.Comment)
+	// defer statement.Close()
 
-	rows, _ :=
-		database.Query("SELECT id, username, comment FROM post")
-	var id int
-	fmt.Println("select data")
-	for rows.Next() {
-		rows.Scan(&id, &username, &tag.Comment)
-		fmt.Println(strconv.Itoa(id) + ": " + username + " " + tag.Comment)
-	}
+	// rows, _ :=
+	// 	database.Query("SELECT id, username, comment FROM post")
+	// var id int
+	// fmt.Println("select data")
+	// for rows.Next() {
+	// 	rows.Scan(&id, &username, &tag.Comment)
+	// 	fmt.Println(strconv.Itoa(id) + ": " + username + " " + tag.Comment)
+	// }
 
 }
 
-// func databaseComment(id int, username string, newComment string) {
+func addComment(id string, username string, newComment string) {
 
-// 	database, _ :=
-// 		sql.Open("sqlite3", "data.db")
-// 	statement, _ :=
-// 		database.Prepare("CREATE TABLE IF NOT EXISTS comment (id INTEGER , username TEXT, newComment TEXT)")
-// 	statement.Exec()
-// 	statement, _ =
-// 		database.Prepare("INSERT INTO comment (id, username, newComment) VALUES (?, ?, ?)")
-// 	fmt.Println("ici")
-// 	statement.Exec(id, username, newComment)
-// 	rows, _ :=
-// 		database.Query("SELECT id, username, newComment FROM comment")
-// 	var test []string
-// 	for rows.Next() {
-// 		rows.Scan(&id, &username, &newComment)
-// 		test = append(test, strconv.Itoa(id)+": "+username+" "+newComment+"\n")
-// 	}
+	statement, _ :=
+		database.Prepare("INSERT INTO comments (id, username, newComment) VALUES (?, ?, ?)")
+	defer statement.Close()
+	statement.Exec(id, username, newComment)
 
-// }
+	// rows, _ :=
+	// 	database.Query("SELECT id, username, newComment FROM comments")
+	// fmt.Println("select data")
+	// for rows.Next() {
+	// 	rows.Scan(&id, &username, &newComment)
+	// 	fmt.Println(id + ": " + username + " " + newComment)
+	// }
+
+}
 
 func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
@@ -227,16 +223,30 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getAllData() {
+func getAllData() []PrintPost {
 	var temp PrintPost
 
 	rows, _ :=
 		database.Query("SELECT id, username, comment FROM post")
-
+	allData = nil
 	for rows.Next() {
 		rows.Scan(&temp.Id, &temp.Username, &temp.Comment)
 		allData = append(allData, temp)
 	}
+	return allData
+}
+
+func getAllDataComment() []Comments {
+	var temp Comments
+
+	rows, _ :=
+		database.Query("SELECT id, username,  newComment FROM comments")
+	commentData = nil
+	for rows.Next() {
+		rows.Scan(&temp.id, &temp.username, &temp.text)
+		commentData = append(commentData, temp)
+	}
+	return commentData
 }
 
 func RegisterHandle(w http.ResponseWriter, r *http.Request) {
@@ -271,14 +281,15 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 
 func PostHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Connect")
-	getAllData()
 
 	session, _ := store.Get(r, "mysession")
 	userName := fmt.Sprintf("%v", session.Values["username"])
+
 	data := map[string]interface{}{
-		"username": userName,
-		"post":     allData,
+		"username": &userName,
+		"post":     getAllData(),
 	}
+	// fmt.Print(getAllData())
 
 	tpl, _ := template.ParseFiles("assets/signIn.html")
 	tpl.Execute(w, data)
@@ -313,69 +324,23 @@ func CreatePostHandle(w http.ResponseWriter, r *http.Request) {
 	tpl.Execute(w, nil)
 }
 
-// func CommentHandle(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Println("Connect")
-
-// 	id := r.FormValue("id")
-// 	userName := PrintPost.Username
-// 	newComment := r.FormValue("newComment")
-// 	intId, _ := strconv.Atoi(id)
-// 	if newComment != "" {
-// 		databaseComment(intId, userName, newComment)
-// 		fmt.Println("tu sors de  wsh")
-// 	}
-
-// 	tpl := template.Must(template.ParseFiles("assets/comment.html"))
-
-// 	data := oui{
-// 		Comment: getCommentInfo(),
-// 	}
-
-// 	err := tpl.Execute(w, data)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// }
-
-// func getCommentInfo() []postMessage {
-
-// 	database, _ :=
-// 		sql.Open("sqlite3", "data.db")
-// 	rows, _ :=
-// 		database.Query("SELECT id, username, newComment FROM comment")
-
-// 	var _id int
-// 	var test []postMessage
-// 	var _pseudo string
-// 	var _message string
-// 	for rows.Next() {
-// 		rows.Scan(&_id, &_pseudo, &_message)
-// 		data := postMessage{
-// 			id:      _id,
-// 			pseudo:  _pseudo,
-// 			message: _message,
-// 		}
-// 		test = append(test, data)
-// 		fmt.Println(test)
-// 	}
-// 	return test
-// }
-
 func CommentHandle(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("comment")
+	getAllDataComment()
 	var comments Comments
 	session, _ := store.Get(r, "mysession")
-	id, _ := strconv.Atoi(r.URL.Path[8:])
+	comments.id = r.FormValue("id")
 	comments.username = fmt.Sprintf("%v", session.Values["username"])
 	comments.text = r.FormValue("comment")
 
-	data := map[string]interface{}{
-		"comments": comments,
-		"post":     allData,
+	if comments.text != "" {
+		addComment(comments.id, comments.username, comments.text)
 	}
 
-	fmt.Println(id)
+	data := map[string]interface{}{
+		"comments": getAllDataComment(),
+		"post":     getAllData(),
+	}
+
 	tpl := template.Must(template.ParseFiles("assets/test.html"))
 	tpl.Execute(w, data)
 }
@@ -389,9 +354,9 @@ func main() {
 	http.Handle("/", fs)
 	http.HandleFunc("/main", LoginHandle)
 	http.HandleFunc("/logout", logoutHandle)
-	// http.HandleFunc("/connect", RegisterHandle)
+	http.HandleFunc("/connect", RegisterHandle)
 	http.HandleFunc("/account", PostHandle)
-	// http.HandleFunc("/CreateNewPost", CreatePostHandle)
+	http.HandleFunc("/CreateNewPost", CreatePostHandle)
 	http.HandleFunc("/comment", CommentHandle)
 
 	http.ListenAndServe(":8080", nil)

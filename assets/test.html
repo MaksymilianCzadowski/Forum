@@ -1,16 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
+<script type="text/javascript">
+    function getParameters() {
+        let urlcourante = document.location.href;
+        urlcourante = urlcourante.replace(/\/$/, "");
+        // load in a variable the portion behind the last slash
+        queue_url = urlcourante.substring(urlcourante.lastIndexOf("/") + 1);
+        let reg = /(?<=\?).*/g;
+        let testa = queue_url.match(reg)[0]
+        return testa
+    }
+
+    // Print all the information on the serve
+
+
+    function createPost() {
+        let id = getParameters();
+
+        var data = "{{.post}}"
+        data = data.slice(1, -1)
+
+        console.log(data);
+        // const idRegex = /(?<=\w\s)\d+(?=\s\w)/g
+        const pseudoRegex = /(?<={)\w+(?=\s\d)/g
+
+        // var id = data.match(idRegex) // id ok
+        var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
+
+        var postForm1 = data.replace(/(?<={)\w+(?=\s\d)/g, "")
+        var postForm2 = postForm1.replace(/(?<=\s)\d+(?=\s\w)/g, "")
+        postForm2 = postForm2.slice(3, -1)
+        var postFinalForm = postForm2.split("} {  ") // post ok even with special char
+
+        var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
+        var CreationDate = new Date("")
+
+        // le conteneur de la div
+        var div1 = document.createElement('div');
+        // div1.setAttribute('class', 'large-7 small-8 column lpad')
+
+        // Le cadre de l'avatar
+        var div2 = document.createElement('div');
+        // div2.setAttribute('class', 'large-1 column lpad')
+
+        // La photo de l'avatar
+        var divimage = document.createElement('img');
+        // divimage.setAttribute('class', 'icon-file')
+        divimage.setAttribute('id', 'img')
+        divimage.setAttribute('src', avatar)
+        divimage.setAttribute('alt', 'Music')
+
+        // titre du topic
+        var div4 = document.createElement('div');
+        var txt4 = document.createTextNode(pseudo[id])
+        div4.setAttribute('class', 'overflow-control')
+        div4.appendChild(txt4)
+
+        // description du topic
+        var div5 = document.createElement('div');
+        var txt5 = document.createTextNode(postFinalForm[id])
+        div5.setAttribute('class', 'overflow-control')
+        div5.appendChild(txt5)
+
+        var parent = document.getElementById("start")
+
+        // On assemble les divs
+        document.body.appendChild(div1);
+        parent.appendChild(div1)
+        div1.appendChild(div2)
+        div1.appendChild(div4)
+        div1.appendChild(div5)
+        div2.appendChild(divimage)
+
+
+    }
+
+    function create() {
+
+        let id = getParameters();
+        var data = "{{.comments}}"
+        console.log(data);
+        data = data.slice(1, -1)
+
+        const idRegex = /(?<={)\d+/g
+        const pseudoRegex = /(?<=\d\s\s)\w+(?=\s\s)/g
+
+
+        var _id = data.match(idRegex) // id ok
+        var save = data.match(idRegex)
+        var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
+
+        var postForm1 = data.replace(/(?<=\d\s\s)\w+(?=\s\s)/g, "")
+        var postForm2 = postForm1.replace(/(?<={)\d+\s\s\s\s/g, "")
+        postForm2 = postForm2.slice(1, -1)
+        var postFinalForm = postForm2.split("} {") // post ok even with special char
+
+        var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
+        var CreationDate = new Date("")
+
+        console.log(data);
+
+        var idPost = []
+        var idPseudo = []
+        for (let ad = 0; ad < _id.length; ad++) {
+            idPost[ad] = _id[ad] + " " + postFinalForm[ad]
+        }
+
+
+        _id = _id.filter(item => id.includes(item));
+        console.log(_id);
+
+        idPost = idPost.filter(item => id.includes(item[0]))
+        // console.log(idPost);
+
+        console.log(idPseudo);
+
+        for (i = 0; i < _id.length; i++) {
+
+            // le conteneur de la div
+            var div1 = document.createElement('div');
+            div1.id = i;
+            // Le cadre de l'avatar
+            var div2 = document.createElement('div');
+
+            // La photo de l'avatar
+            var divimage = document.createElement('img');
+            divimage.setAttribute('class', 'icon-file')
+            divimage.setAttribute('id', 'img')
+            divimage.setAttribute('src', avatar)
+
+
+            // nom de l'auteur du post
+            var div3 = document.createElement('div');
+            var txt3 = document.createTextNode(_id[i])
+            div3.appendChild(txt3)
+
+            // description du topic
+            var div5 = document.createElement('div');
+            var txt5 = document.createTextNode(idPost[i].slice(2))
+            div5.appendChild(txt5)
+
+            // var div6 = document.createElement('button');
+            // var txt6 = document.createTextNode('like')
+            // div6.setAttribute('class', 'like' + i)
+            // div6.appendChild(txt6)
+
+            // var div7 = document.createElement('button');
+            // var txt7 = document.createTextNode('dislike')
+            // div7.setAttribute('class', 'dislike')
+            // div7.appendChild(txt7)
+
+
+            var parent = document.getElementById("acc")
+
+            // On assemble les divs
+            document.body.appendChild(div1);
+            parent.appendChild(div1)
+            div1.appendChild(div2)
+            // div1.appendChild(div3)
+            // div1.appendChild(div4)
+            div1.appendChild(div5)
+            // div1.appendChild(div6)
+            // div1.appendChild(div7)
+            div2.appendChild(divimage)
+
+
+        }
+    }
+
+    function addInput() {
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', 'id');
+        input.setAttribute('value', getParameters());
+        var parent = document.getElementById("stt")
+        document.body.appendChild(input);
+        parent.appendChild(input)
+    }
+
+</script>
+
+
 <body>
-    <h1>Yo mec</h1>
-    <form method="POST">    
+    <a href="/account">back</a>
+    <div id="start">
+        <script type="text/javascript">
+                createPost()
+        </script>
+    </div>
+    <br>
+    <form method="POST">
+
+        <div id="stt">
+            <script type="text/javascript">addInput()</script>
+        </div>
+
         <textarea name="comment" id="comment" cols="80" rows="10" placeholder="Your comment"></textarea>
+        <br>
         <button type="submit">send your comment</button>
     </form>
+    <div id="acc">
+        <script type="text/javascript">
+                create()
+        </script>
+    </div>
 </body>
+
 </html>
