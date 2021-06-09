@@ -318,6 +318,7 @@ func CreatePostHandle(w http.ResponseWriter, r *http.Request) {
 	if tag.Comment != "" {
 		fmt.Printf("psot en cour\n")
 		addPost(username)
+		http.Redirect(w, r, "/account", http.StatusSeeOther)
 	}
 
 	tpl := template.Must(template.ParseFiles("assets/post.html"))
