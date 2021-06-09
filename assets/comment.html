@@ -23,73 +23,6 @@
 
 
     // Print all the information on the serve
-    function createPost() {
-        let id = getParameters();
-
-        var data = "{{.Poste}}"
-        data = data.slice(1, -1)
-
-        const idRegex = /(?<={)\d+/g
-        const pseudoRegex = /(?<=\d\s\s)\w+(?=\s\s)/g
-
-        var _id = data.match(idRegex) // id ok
-        var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
-
-        var postForm1 = data.replace(/(?<=\d\s\s)\w+(?=\s\s)/g, "")
-        var postForm2 = postForm1.replace(/(?<={)\d+\s\s\s\s/g, "")
-        postForm2 = postForm2.slice(1, -1)
-        var postFinalForm = postForm2.split("} {") // post ok even with special char
-
-        var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
-        var CreationDate = new Date("")
-
-        // le conteneur de la div
-        var div1 = document.createElement('div');
-        div1.setAttribute('class', 'large-7 small-8 column lpad')
-        // Le cadre de l'avatar
-        var div2 = document.createElement('div');
-        div2.setAttribute('class', 'large-1 column lpad')
-
-        // La photo de l'avatar
-        var divimage = document.createElement('img');
-        divimage.setAttribute('class', 'icon-file')
-        divimage.setAttribute('id', 'img')
-        divimage.setAttribute('src', avatar)
-        divimage.setAttribute('alt', 'Music')
-
-        // nom de l'auteur du post
-        // var div3 = document.createElement('div');
-        // var txt3 = document.createTextNode(_id[id])
-        // div3.setAttribute('class', 'card-header')
-        // div3.appendChild(txt3)
-
-        // titre du topic
-        var div4 = document.createElement('div');
-        var txt4 = document.createTextNode(pseudo[id])
-        div4.setAttribute('class', 'overflow-control')
-        div4.appendChild(txt4)
-
-        // description du topic
-        var div5 = document.createElement('div');
-        var txt5 = document.createTextNode(postFinalForm[id])
-        div5.setAttribute('class', 'overflow-control')
-        div5.appendChild(txt5)
-
-
-        var parent = document.getElementById("post")
-
-        // On assemble les divs
-        document.body.appendChild(div1);
-        parent.appendChild(div1)
-        div1.appendChild(div2)
-        // div1.appendChild(div3)
-        div1.appendChild(div4)
-        div1.appendChild(div5)
-        div2.appendChild(divimage)
-
-
-    }
-
     function create() {
 
         let id = getParameters();
@@ -118,10 +51,10 @@
         var idPost = []
         var idPseudo = []
         for (let ad = 0; ad < _id.length; ad++) {
-            idPost[ad] = _id[ad] +" "+ postFinalForm[ad]
-            idPseudo[ad] = _id[ad] +" "+ pseudo[ad]
+            idPost[ad] = _id[ad] + " " + postFinalForm[ad]
+            idPseudo[ad] = _id[ad] + " " + pseudo[ad]
         }
-    
+
 
         _id = _id.filter(item => id.includes(item));
         // console.log(_id);
@@ -190,15 +123,15 @@
         }
     }
 
-    function addInput() {
-        var input = document.createElement('input');
-        input.setAttribute('type', 'hidden');
-        input.setAttribute('name', 'id');
-        input.setAttribute('value', getParameters());
-        var parent = document.getElementById("stt")
-        document.body.appendChild(input);
-        parent.appendChild(input)
-    }
+    // function addInput() {
+    //     var input = document.createElement('input');
+    //     input.setAttribute('type', 'hidden');
+    //     input.setAttribute('name', 'id');
+    //     input.setAttribute('value', getParameters());
+    //     var parent = document.getElementById("stt")
+    //     document.body.appendChild(input);
+    //     parent.appendChild(input)
+    // }
 
 
     // function getId() {
@@ -210,37 +143,25 @@
 </script>
 
 <body>
-    <a href="/accont">back</a>
-    <div id="post">
-        <script type="text/javascript">
+    <a href="/account">back</a>
 
-            createPost();
-
-
-        </script>
-
-    </div>
     <form method="POST">
 
         <div>
 
             <div>
 
-                <div>
-                    <h1>Create an account</h1>
-                </div>
-
-                <div id="stt">
+                <!-- <div id="stt"> -->
                     <!-- <label> -->
-                    <script type="text/javascript">addInput()</script>
+                    <!-- <script type="text/javascript">addInput()</script> -->
                     <!-- <input type="hidden" name="id" id="myField" value=""> -->
                     <!-- </label> -->
-                </div>
+                <!-- </div> -->
 
                 <div>
                     <label>
-                        <span>User name</span>
-                        <input type="text" name="username" id="user" required>
+                        <span></span>
+                        <input type="text" name="newComment" id="newComment" required>
                     </label>
                 </div>
 

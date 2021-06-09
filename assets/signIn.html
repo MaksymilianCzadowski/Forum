@@ -5,38 +5,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="style/connect.css"> -->
     <title>Register</title>
 
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
 
 
 
 
         function create() {
-            var data = "{{.Poste}}"
+            var data = "{{.post}}"
             data = data.slice(1, -1)
 
-            const idRegex = /(?<={)\d+/g
-            const pseudoRegex = /(?<=\d\s\s)\w+(?=\s\s)/g
-
+            console.log(data);
+            const idRegex = /(?<=\w\s)\d+(?=\s\w)/g
+            const pseudoRegex = /(?<={)\w+(?=\s\d)/g
+                        
             var id = data.match(idRegex) // id ok
             var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
-
-            var postForm1 = data.replace(/(?<=\d\s\s)\w+(?=\s\s)/g, "")
-            var postForm2 = postForm1.replace(/(?<={)\d+\s\s\s\s/g, "")
-            postForm2 = postForm2.slice(1, -1)
-            var postFinalForm = postForm2.split("} {") // post ok even with special char
+ 
+            var postForm1 = data.replace(/(?<={)\w+(?=\s\d)/g, "")
+            var postForm2 = postForm1.replace(/(?<=\s)\d+(?=\s\w)/g, "")
+            postForm2 = postForm2.slice(3, -1)
+            var postFinalForm = postForm2.split("} {  ") // post ok even with special char
 
             var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
             var CreationDate = new Date("")
-
+            
 
 
             for (let i = 0; i < id.length; i++) {
                 // le conteneur de la div
                 var div1 = document.createElement('div');
-                div1.setAttribute('class', 'large-7 small-8 column lpad')
+                // div1.setAttribute('class', 'large-7 small-8 column lpad')
                 div1.id = i;
                 div1.onclick = function () {
                     redirect(this.id);
@@ -44,11 +46,11 @@
 
                 // Le cadre de l'avatar
                 var div2 = document.createElement('div');
-                div2.setAttribute('class', 'large-1 column lpad')
+                // div2.setAttribute('class', 'large-1 column lpad')
 
                 // La photo de l'avatar
                 var divimage = document.createElement('img');
-                divimage.setAttribute('class', 'icon-file')
+                // divimage.setAttribute('class', 'icon-file')
                 divimage.setAttribute('id', 'img')
                 divimage.setAttribute('src', avatar)
                 divimage.setAttribute('alt', 'Music')
@@ -102,11 +104,26 @@
             window.location.href = '/comment?' + String(id);
         }
 
-    </script> -->
+    </script>
 </head>
 
 <body>
 
+    <!-- <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="..." alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    
     <a href="/logout">Logout</a>
 
     <!-- <button class="like">Like👍</button>
@@ -129,17 +146,29 @@
                         <a href="/CreateNewPost">Create a new post</a>
                     </div>
               
-
+                    <!-- <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img src="..." alt="...">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">Card title</h5>
+                              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                          </div>
+                        </div>
+                    </div> -->
             </div>
             {{.post}}
-            
-      
-        <div class="grix xs1 md2 lg3" id="start">
+            <div id="start">
             <script type="text/javascript">
-                create();
+                create()
             </script>
+            </div>
+      
 
-        </div>
 
     </div>
 
