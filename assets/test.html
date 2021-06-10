@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.3.0/dist/css/axentix.min.css">
+    <link rel="stylesheet" href="style/test.css">
     <title>Document</title>
 </head>
 
@@ -86,6 +87,7 @@
 
         let id = getParameters();
         var data = "{{.comments}}"
+        
         data = data.slice(1, -1)
 
         const idRegex = /(?<={)\d+/g
@@ -99,7 +101,7 @@
         var postForm2 = postForm1.replace(/(?<={)\d+\s\s/g, "")
         postForm2 = postForm2.slice(1, -1)
         var postFinalForm = postForm2.split("} {") // post ok even with special char
-
+        console.log(postForm1);
         var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
         var CreationDate = new Date("")
 
