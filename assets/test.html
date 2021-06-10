@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.3.0/dist/css/axentix.min.css">
     <title>Document</title>
 </head>
 
@@ -44,40 +45,39 @@
 
         // le conteneur de la div
         var div1 = document.createElement('div');
-        // div1.setAttribute('class', 'large-7 small-8 column lpad')
+        div1.setAttribute('class', 'card shadow-1 fx-row');
+        // La photo de l'avatar
+        var divimage = document.createElement('img');
+        divimage.style.width = "180px";
+        divimage.setAttribute('id', 'img');
+        divimage.setAttribute('src', avatar);
 
         // Le cadre de l'avatar
         var div2 = document.createElement('div');
-        // div2.setAttribute('class', 'large-1 column lpad')
-
-        // La photo de l'avatar
-        var divimage = document.createElement('img');
-        // divimage.setAttribute('class', 'icon-file')
-        divimage.setAttribute('id', 'img')
-        divimage.setAttribute('src', avatar)
-        divimage.setAttribute('alt', 'Music')
+        div2.setAttribute('class', 'flex fx-col fx-grow')
 
         // titre du topic
         var div4 = document.createElement('div');
         var txt4 = document.createTextNode(pseudo[id])
-        div4.setAttribute('class', 'overflow-control')
+        div4.setAttribute('class', 'card-header')
         div4.appendChild(txt4)
 
         // description du topic
         var div5 = document.createElement('div');
         var txt5 = document.createTextNode(postFinalForm[id])
-        div5.setAttribute('class', 'overflow-control')
+        div5.setAttribute('class', 'card-content')
         div5.appendChild(txt5)
 
         var parent = document.getElementById("start")
 
         // On assemble les divs
         document.body.appendChild(div1);
+        div1.appendChild(divimage)
         parent.appendChild(div1)
         div1.appendChild(div2)
-        div1.appendChild(div4)
-        div1.appendChild(div5)
-        div2.appendChild(divimage)
+        div2.appendChild(div4)
+        div2.appendChild(div5)
+
 
 
     }
@@ -102,7 +102,7 @@
 
         var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
         var CreationDate = new Date("")
-        
+
 
         var idPost = []
         var idPseudo = []
@@ -114,7 +114,7 @@
 
 
         _id = _id.filter(item => id.includes(item));
- 
+
 
         idPost = idPost.filter(item => id.includes(item[0]))
         idPseudo = idPseudo.filter(item => id.includes(item[0]))
@@ -124,56 +124,42 @@
 
             // le conteneur de la div
             var div1 = document.createElement('div');
+            div1.setAttribute('class', 'card shadow-1 fx-row');
             div1.id = i;
-            // Le cadre de l'avatar
-            var div2 = document.createElement('div');
 
             // La photo de l'avatar
             var divimage = document.createElement('img');
-            divimage.setAttribute('class', 'icon-file')
+            divimage.style.width = "180px";
             divimage.setAttribute('id', 'img')
             divimage.setAttribute('src', avatar)
 
+            // Le cadre de l'avatar
+            var div2 = document.createElement('div');
+            div2.setAttribute('class', 'flex fx-col fx-grow')
 
-            // nom de l'auteur du post
-            // var div3 = document.createElement('div');
-            // var txt3 = document.createTextNode(_id[i])
-            // div3.appendChild(txt3)
 
-            
             // description du topic
             var div4 = document.createElement('div');
             var txt4 = document.createTextNode(idPseudo[i].slice(2))
+            div4.setAttribute('class', 'card-header')
             div4.appendChild(txt4)
 
             // description du topic
             var div5 = document.createElement('div');
             var txt5 = document.createTextNode(idPost[i].slice(2))
+            div5.setAttribute('class', 'card-content')
             div5.appendChild(txt5)
-
-            // var div6 = document.createElement('button');
-            // var txt6 = document.createTextNode('like')
-            // div6.setAttribute('class', 'like' + i)
-            // div6.appendChild(txt6)
-
-            // var div7 = document.createElement('button');
-            // var txt7 = document.createTextNode('dislike')
-            // div7.setAttribute('class', 'dislike')
-            // div7.appendChild(txt7)
 
 
             var parent = document.getElementById("acc")
 
             // On assemble les divs
             document.body.appendChild(div1);
+            div1.appendChild(divimage)
             parent.appendChild(div1)
             div1.appendChild(div2)
-            // div1.appendChild(div3)
-            div1.appendChild(div4)
-            div1.appendChild(div5)
-            // div1.appendChild(div6)
-            // div1.appendChild(div7)
-            div2.appendChild(divimage)
+            div2.appendChild(div4)
+            div2.appendChild(div5)
 
 
         }
@@ -193,10 +179,16 @@
 
 
 <body>
-    <a href="/account">back</a>
+
+    <nav class="navbar shadow-1 primary">
+        <a href="/account" class="navbar-brand">Forum</a>
+        <div class="navbar-menu ml-auto">
+            <a class="navbar-link active" href="/account">Back</a>
+        </div>
+    </nav>
     <div id="start">
         <script type="text/javascript">
-                createPost()
+            createPost()
         </script>
     </div>
     <br>
@@ -206,12 +198,14 @@
             <script type="text/javascript">addInput()</script>
         </div>
 
-        <textarea name="comment" id="comment" cols="80" rows="10" placeholder="Your comment"></textarea>
-        <button type="submit">send your comment</button>
+        <textarea name="comment" id="comment" class="rounded-1" rows="8" cols="80" placeholder="Your comment" required
+            style="resize: none;"></textarea><br>
+        <button type="submit" class="btn shadow-1 rounded-1 blue">send your comment</button>
     </form>
+
     <div id="acc">
         <script type="text/javascript">
-                create()
+            create()
         </script>
     </div>
 </body>

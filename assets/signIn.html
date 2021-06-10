@@ -9,6 +9,7 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.3.0/dist/css/axentix.min.css">
+    <!-- <link rel="stylesheet" href="style/test.css"> -->
     <title>Register</title>
 
     <script type="text/javascript">
@@ -40,7 +41,7 @@
             for (let i = 0; i < id.length; i++) {
                 // le conteneur de la div
                 var div1 = document.createElement('div');
-                div1.setAttribute('class', 'card shadow-1 fx-row');
+                div1.setAttribute('class', 'card shadow-1  fx-row white');
                 div1.id = i;
                 div1.onclick = function () {
                     redirect(this.id);
@@ -108,10 +109,9 @@
 
 <body>
     <nav class="navbar shadow-1 primary">
-        <a href="#" target="_blank" class="navbar-brand">Forum</a>
+        <a target="_blank" class="navbar-brand">Forum</a>
         <div class="navbar-menu ml-auto">
             <a class="navbar-link active" href="/logout">Logout</a>
-
         </div>
     </nav>
 
