@@ -55,28 +55,28 @@ var dataLogin Login
 var tag Post
 var database, _ = sql.Open("sqlite3", "data.db")
 
-func createTablePeople() {
+func createTablePeople() { // create table for account in database
 	statement, _ :=
 		database.Prepare("CREATE TABLE IF NOT EXISTS people (id INTEGER PRIMARY KEY, username TEXT, email TEXT, password TEXT)")
 	defer statement.Close()
 	statement.Exec()
 }
 
-func createTablePost() {
+func createTablePost() { // create table for post in database
 	statement, _ :=
 		database.Prepare("CREATE TABLE IF NOT EXISTS post (id INTEGER PRIMARY KEY, username TEXT, comment TEXT)")
 	defer statement.Close()
 	statement.Exec()
 }
 
-func createTableComment() {
+func createTableComment() { // create table for comment in database
 	statement, _ :=
 		database.Prepare("CREATE TABLE IF NOT EXISTS comments (id TEXT , username TEXT, newComment TEXT)")
 	defer statement.Close()
 	statement.Exec()
 }
 
-func addUser(username string, email string, password string) {
+func addUser(username string, email string, password string) { // add user information in database
 
 	statement, _ :=
 		database.Prepare("INSERT INTO people (username, email, password) VALUES (?, ?, ?)")
@@ -90,7 +90,7 @@ func addUser(username string, email string, password string) {
 
 }
 
-func addPost(username string) {
+func addPost(username string) { // add post information in database
 	fmt.Println(username)
 	fmt.Println(tag.Comment)
 	// fmt.Println(tag.TagCars)
@@ -98,34 +98,15 @@ func addPost(username string) {
 	statement, _ :=
 		database.Prepare("INSERT INTO post (username, comment) VALUES (?, ?)")
 	statement.Exec(username, tag.Comment)
-	// defer statement.Close()
-
-	// rows, _ :=
-	// 	database.Query("SELECT id, username, comment FROM post")
-	// var id int
-	// fmt.Println("select data")
-	// for rows.Next() {
-	// 	rows.Scan(&id, &username, &tag.Comment)
-	// 	fmt.Println(strconv.Itoa(id) + ": " + username + " " + tag.Comment)
-	// }
 
 }
 
-func addComment(id string, username string, newComment string) {
+func addComment(id string, username string, newComment string) { // add comment information in database
 
 	statement, _ :=
 		database.Prepare("INSERT INTO comments (id, username, newComment) VALUES (?, ?, ?)")
 	defer statement.Close()
 	statement.Exec(id, username, newComment)
-
-	// rows, _ :=
-	// 	database.Query("SELECT id, username, newComment FROM comments")
-	// fmt.Println("select data")
-	// for rows.Next() {
-	// 	rows.Scan(&id, &username, &newComment)
-	// 	fmt.Println(id + ": " + username + " " + newComment)
-	// }
-
 }
 
 func HashPassword(password string) (string, error) {
@@ -138,7 +119,7 @@ func CheckPasswordHash(password, hash string) bool {
 	return err == nil
 }
 
-func verifRegisterData(regUser string, regEmail string) bool {
+func verifRegisterData(regUser string, regEmail string) bool { // check if user information is already use or not
 	var username string
 	var email string
 	var password string
@@ -149,18 +130,15 @@ func verifRegisterData(regUser string, regEmail string) bool {
 		database.Query("SELECT id, username, email, password FROM people")
 	for rows.Next() {
 		rows.Scan(&id, &username, &email, &password)
-		// fmt.Println(strconv.Itoa(id) + ": " + username + " " + email + " " + password)
 		if regEmail == email || regUser == username {
 			fmt.Println("nope")
 			result = false
 		}
 	}
-	// fmt.Println("data : ", username, email)
-	// fmt.Println("paramètre :", regUser, regEmail)
 	return result
 }
 
-func login(logUser string, logPassword string) int {
+func login(logUser string, logPassword string) int { // check if user can connect to his account or not
 	var username string
 	var email string
 	var password string
@@ -181,14 +159,14 @@ func login(logUser string, logPassword string) int {
 	return result
 }
 
-func logoutHandle(w http.ResponseWriter, r *http.Request) {
+func logoutHandle(w http.ResponseWriter, r *http.Request) { // for the user to disconnect to his account
 	session, _ := store.Get(r, "mysession")
 	session.Options.MaxAge = -1
 	session.Save(r, w)
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
-func LoginHandle(w http.ResponseWriter, r *http.Request) {
+func LoginHandle(w http.ResponseWriter, r *http.Request) { // for the user to connect to his account
 	fmt.Println("home")
 	dataLogin.Username = r.FormValue("username")
 	dataLogin.Password = r.FormValue("password")
@@ -223,7 +201,7 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getAllData() []PrintPost {
+func getAllData() []PrintPost { // get post information from database
 	var temp PrintPost
 
 	rows, _ :=
@@ -236,7 +214,7 @@ func getAllData() []PrintPost {
 	return allData
 }
 
-func getAllDataComment() []Comments {
+func getAllDataComment() []Comments { // get comment information from database
 	var temp Comments
 
 	rows, _ :=
@@ -249,7 +227,7 @@ func getAllDataComment() []Comments {
 	return commentData
 }
 
-func RegisterHandle(w http.ResponseWriter, r *http.Request) {
+func RegisterHandle(w http.ResponseWriter, r *http.Request) { // for user to register
 	fmt.Println("Register")
 
 	var regData Err
@@ -279,7 +257,7 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func PostHandle(w http.ResponseWriter, r *http.Request) {
+func PostHandle(w http.ResponseWriter, r *http.Request) { // for user to see all post (the main page)
 	fmt.Println("Connect")
 
 	session, _ := store.Get(r, "mysession")
@@ -298,7 +276,7 @@ func PostHandle(w http.ResponseWriter, r *http.Request) {
 	// }
 }
 
-func GuestHandle(w http.ResponseWriter, r *http.Request) {
+func GuestHandle(w http.ResponseWriter, r *http.Request) { // for guest(without account) to see all post (the main page)
 
 	data := map[string]interface{}{
 		"post": getAllData(),
@@ -312,7 +290,7 @@ func GuestHandle(w http.ResponseWriter, r *http.Request) {
 	// }
 }
 
-func CreatePostHandle(w http.ResponseWriter, r *http.Request) {
+func CreatePostHandle(w http.ResponseWriter, r *http.Request) { // for user to add a post
 	fmt.Println("POST")
 
 	session, _ := store.Get(r, "mysession")
@@ -338,7 +316,7 @@ func CreatePostHandle(w http.ResponseWriter, r *http.Request) {
 	tpl.Execute(w, nil)
 }
 
-func CommentHandle(w http.ResponseWriter, r *http.Request) {
+func CommentHandle(w http.ResponseWriter, r *http.Request) { // for user to see and add a comment
 	getAllDataComment()
 	var comments Comments
 	session, _ := store.Get(r, "mysession")
@@ -359,7 +337,7 @@ func CommentHandle(w http.ResponseWriter, r *http.Request) {
 	tpl.Execute(w, data)
 }
 
-func GuestCommentHandle(w http.ResponseWriter, r *http.Request) {
+func GuestCommentHandle(w http.ResponseWriter, r *http.Request) { // for guest(without account) to see all comment
 
 	data := map[string]interface{}{
 		"comments": getAllDataComment(),
@@ -385,6 +363,5 @@ func main() {
 	http.HandleFunc("/comment", CommentHandle)
 	http.HandleFunc("/Guest", GuestHandle)
 	http.HandleFunc("/GuestComment", GuestCommentHandle)
-
 	http.ListenAndServe(":8080", nil)
 }

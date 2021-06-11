@@ -11,7 +11,7 @@
 </head>
 
 <script type="text/javascript">
-    function getParameters() {
+    function getParameters() { // get id in url
         let urlcourante = document.location.href;
         urlcourante = urlcourante.replace(/\/$/, "");
         // load in a variable the portion behind the last slash
@@ -21,49 +21,45 @@
         return testa
     }
 
-    // Print all the information on the serve
-
-
+    // Print the choosen post information
     function createPost() {
         let id = getParameters();
 
         var data = "{{.post}}"
         data = data.slice(1, -1)
 
-        // const idRegex = /(?<=\w\s)\d+(?=\s\w)/g
         const pseudoRegex = /(?<={)\w+(?=\s\d)/g
 
-        // var id = data.match(idRegex) // id ok
-        var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
+        var pseudo = data.match(pseudoRegex)
 
         var postForm1 = data.replace(/(?<={)\w+(?=\s\d)/g, "")
         var postForm2 = postForm1.replace(/(?<=\s)\d+(?=\s\w)/g, "")
         postForm2 = postForm2.slice(3, -1)
-        var postFinalForm = postForm2.split("} {  ") // post ok even with special char
+        var postFinalForm = postForm2.split("} {  ")
 
         var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
-        var CreationDate = new Date("")
 
-        // le conteneur de la div
+        // card
         var div1 = document.createElement('div');
         div1.setAttribute('class', 'card shadow-1 fx-row');
-        // La photo de l'avatar
+
+        // profile picture
         var divimage = document.createElement('img');
         divimage.style.width = "180px";
         divimage.setAttribute('id', 'img');
         divimage.setAttribute('src', avatar);
 
-        // Le cadre de l'avatar
+        // The avatar frame
         var div2 = document.createElement('div');
         div2.setAttribute('class', 'flex fx-col fx-grow')
 
-        // titre du topic
+        // User pseudo who post
         var div4 = document.createElement('div');
         var txt4 = document.createTextNode(pseudo[id])
         div4.setAttribute('class', 'card-header')
         div4.appendChild(txt4)
 
-        // description du topic
+        // post
         var div5 = document.createElement('div');
         var txt5 = document.createTextNode(postFinalForm[id])
         div5.setAttribute('class', 'card-content')
@@ -71,7 +67,7 @@
 
         var parent = document.getElementById("start")
 
-        // On assemble les divs
+        // We assemble the divs
         document.body.appendChild(div1);
         div1.appendChild(divimage)
         parent.appendChild(div1)
@@ -83,6 +79,7 @@
 
     }
 
+    // Print all comment link to the choosen post
     function create() {
 
         let id = getParameters();
@@ -94,16 +91,16 @@
         const pseudoRegex = /(?<=\d\s)\w+(?=\s)/g
 
 
-        var _id = data.match(idRegex) // id ok
-        var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
+        var _id = data.match(idRegex)
+        var pseudo = data.match(pseudoRegex)
 
         var postForm1 = data.replace(/(?<=\d\s)\w+(?=\s)/g, "")
         var postForm2 = postForm1.replace(/(?<={)\d+\s\s/g, "")
         postForm2 = postForm2.slice(1, -1)
-        var postFinalForm = postForm2.split("} {") // post ok even with special char
+        var postFinalForm = postForm2.split("} {")
         console.log(postForm1);
         var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
-        var CreationDate = new Date("")
+
 
 
         var idPost = []
@@ -124,29 +121,29 @@
 
         for (i = 0; i < _id.length; i++) {
 
-            // le conteneur de la div
+            // card
             var div1 = document.createElement('div');
             div1.setAttribute('class', 'card shadow-1 fx-row');
             div1.id = i;
 
-            // La photo de l'avatar
+            // profile image
             var divimage = document.createElement('img');
             divimage.style.width = "180px";
             divimage.setAttribute('id', 'img')
             divimage.setAttribute('src', avatar)
 
-            // Le cadre de l'avatar
+            // The avatar frame
             var div2 = document.createElement('div');
             div2.setAttribute('class', 'flex fx-col fx-grow')
 
 
-            // description du topic
+            // pseudo of user who comment
             var div4 = document.createElement('div');
             var txt4 = document.createTextNode(idPseudo[i].slice(2))
             div4.setAttribute('class', 'card-header')
             div4.appendChild(txt4)
 
-            // description du topic
+            // comment
             var div5 = document.createElement('div');
             var txt5 = document.createTextNode(idPost[i].slice(2))
             div5.setAttribute('class', 'card-content')
@@ -155,7 +152,7 @@
 
             var parent = document.getElementById("acc")
 
-            // On assemble les divs
+            // We assemble the divs
             document.body.appendChild(div1);
             div1.appendChild(divimage)
             parent.appendChild(div1)
@@ -167,6 +164,7 @@
         }
     }
 
+    // for get id from comment
     function addInput() {
         var input = document.createElement('input');
         input.setAttribute('type', 'hidden');
@@ -181,7 +179,7 @@
 
 
 <body>
-
+    
     <nav class="navbar shadow-1 primary">
         <a href="/account" class="navbar-brand">Forum</a>
         <div class="navbar-menu ml-auto">
