@@ -185,7 +185,7 @@ func logoutHandle(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "mysession")
 	session.Options.MaxAge = -1
 	session.Save(r, w)
-	http.Redirect(w, r, "/main", http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 func LoginHandle(w http.ResponseWriter, r *http.Request) {
@@ -194,7 +194,7 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 	dataLogin.Password = r.FormValue("password")
 	errToSend.WrongPass = ""
 	errToSend.UserNotFound = ""
-	tpl := template.Must(template.ParseFiles("assets/index.html"))
+	tpl := template.Must(template.ParseFiles("assets/login.html"))
 
 	if dataLogin.Password != "" && dataLogin.Username != "" {
 		if login(dataLogin.Username, dataLogin.Password) == 1 {
@@ -264,14 +264,14 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) {
 	if userName != "" && email != "" && password != "" {
 		if verifRegisterData(userName, email) {
 			addUser(userName, email, password)
-			http.Redirect(w, r, "/main", http.StatusSeeOther)
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
 		} else {
 			regData.Nope = "your email or your username are already used ! chacal"
 		}
 
 	}
 
-	tpl := template.Must(template.ParseFiles("assets/connect.html"))
+	tpl := template.Must(template.ParseFiles("assets/register.html"))
 
 	err := tpl.Execute(w, regData)
 	if err != nil {
@@ -296,7 +296,20 @@ func PostHandle(w http.ResponseWriter, r *http.Request) {
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }
+}
 
+func GuestHandle(w http.ResponseWriter, r *http.Request) {
+
+	data := map[string]interface{}{
+		"post": getAllData(),
+	}
+	// fmt.Print(getAllData())
+
+	tpl, _ := template.ParseFiles("assets/guest.html")
+	tpl.Execute(w, data)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 }
 
 func CreatePostHandle(w http.ResponseWriter, r *http.Request) {
@@ -342,7 +355,18 @@ func CommentHandle(w http.ResponseWriter, r *http.Request) {
 		"post":     getAllData(),
 	}
 
-	tpl := template.Must(template.ParseFiles("assets/test.html"))
+	tpl := template.Must(template.ParseFiles("assets/comment.html"))
+	tpl.Execute(w, data)
+}
+
+func GuestCommentHandle(w http.ResponseWriter, r *http.Request) {
+
+	data := map[string]interface{}{
+		"comments": getAllDataComment(),
+		"post":     getAllData(),
+	}
+
+	tpl := template.Must(template.ParseFiles("assets/guestComment.html"))
 	tpl.Execute(w, data)
 }
 
@@ -353,12 +377,14 @@ func main() {
 	fs := http.FileServer(http.Dir("assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	http.Handle("/", fs)
-	http.HandleFunc("/main", LoginHandle)
+	http.HandleFunc("/login", LoginHandle)
 	http.HandleFunc("/logout", logoutHandle)
-	http.HandleFunc("/connect", RegisterHandle)
+	http.HandleFunc("/register", RegisterHandle)
 	http.HandleFunc("/account", PostHandle)
 	http.HandleFunc("/CreateNewPost", CreatePostHandle)
 	http.HandleFunc("/comment", CommentHandle)
+	http.HandleFunc("/Guest", GuestHandle)
+	http.HandleFunc("/GuestComment", GuestCommentHandle)
 
 	http.ListenAndServe(":8080", nil)
 }
