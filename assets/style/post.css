@@ -1,5 +1,4 @@
 body {
-  background-color: #F8DACD;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,13 +15,15 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #F8E4DB;
-  border: 2px solid #b4a59ed8;
+  background-color: aliceblue;
+  border: 2px;
   border-radius: 10px;
-  width: 32vw;
-  height: 70vh;
+  width: 30%;
+  height: 60%;
   /* height: 30em; */
   text-align: justify;
+  margin-top: 5%;
+  box-shadow: 0px 0px 20px gray;
 
 }
 
@@ -78,14 +79,14 @@ form {
 
 
 h1 {
-  font-family: system-ui;
+  /* font-family: system-ui; */
   color: #363236;
   font-weight: 900;
   text-align: center;
 }
 
 h3 {
-  font-family: system-ui;
+  /* font-family: system-ui; */
   margin: 0;
   padding: 0;
   color: #363236;
@@ -97,8 +98,7 @@ h3 {
   border-radius: 10px;
   height: 4vh;
   width: 25vw;
-  background-color: rgba(243, 243, 237, 0.308);
-  border: 5px solid #e7c7b8d8;
+
 }
 
 #comment{
@@ -107,7 +107,7 @@ h3 {
   height: 150px;
   padding: 12px 20px;
   box-sizing: border-box;
-  border: 5px solid #e7c7b8d8;
+  border: 5px solid LightGray;
   border-radius: 4px;
   background-color: rgba(243, 243, 237, 0.308);
   font-size: 16px;
@@ -129,13 +129,10 @@ textarea:focus
 }
 
 label {
-  font-family: Georgia, serif;
+  /* font-family: Georgia, serif; */
   margin-left: 5%;
-  color: #363236;
-  font-weight: 900;
-  font-size: large;
   font-size: 20px;
-  font-style: italic;
+  /* font-style: italic; */
 }
 
 .file{
@@ -144,19 +141,18 @@ label {
 
 .tag{
   display: flex;
-  width: 10vw;
+  align-items: center;
 }
 
-legend{
+/* legend{
   font-family: Georgia;
-}
+} */
 
-button {
+/* button {
   display: inline-block;
-  background-color: #c7a799;
-  border-radius: 20px;
+  background-color:#e7c7b8d8;
+  border-radius: 2%;
   border: 4px double #cccccc;
-  color: #363236;
   font-weight: 600;
   font-family: Georgia, serif;
   text-align: center;
@@ -164,13 +160,13 @@ button {
   width: 9vw;
   height: 4vh;
   cursor: pointer;
-  margin-top: 5vh;
+  margin-bottom: 5%;
 
 }
 
 button:hover {
   background-color: #c77d5b;
-}
+} */
 
 .container {
   position: relative;

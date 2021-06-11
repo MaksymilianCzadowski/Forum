@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@1.3.0/dist/css/axentix.min.css">
+    <link rel="stylesheet" href="style/test.css">
+    <title>Document</title>
+</head>
+
+<script type="text/javascript">
+    function getParameters() {
+        let urlcourante = document.location.href;
+        urlcourante = urlcourante.replace(/\/$/, "");
+        // load in a variable the portion behind the last slash
+        queue_url = urlcourante.substring(urlcourante.lastIndexOf("/") + 1);
+        let reg = /(?<=\?).*/g;
+        let testa = queue_url.match(reg)[0]
+        return testa
+    }
+
+    // Print all the information on the serve
+
+
+    function createPost() {
+        let id = getParameters();
+
+        var data = "{{.post}}"
+        data = data.slice(1, -1)
+
+        // const idRegex = /(?<=\w\s)\d+(?=\s\w)/g
+        const pseudoRegex = /(?<={)\w+(?=\s\d)/g
+
+        // var id = data.match(idRegex) // id ok
+        var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
+
+        var postForm1 = data.replace(/(?<={)\w+(?=\s\d)/g, "")
+        var postForm2 = postForm1.replace(/(?<=\s)\d+(?=\s\w)/g, "")
+        postForm2 = postForm2.slice(3, -1)
+        var postFinalForm = postForm2.split("} {  ") // post ok even with special char
+
+        var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
+        var CreationDate = new Date("")
+
+        // le conteneur de la div
+        var div1 = document.createElement('div');
+        div1.setAttribute('class', 'card shadow-1 fx-row');
+        // La photo de l'avatar
+        var divimage = document.createElement('img');
+        divimage.style.width = "180px";
+        divimage.setAttribute('id', 'img');
+        divimage.setAttribute('src', avatar);
+
+        // Le cadre de l'avatar
+        var div2 = document.createElement('div');
+        div2.setAttribute('class', 'flex fx-col fx-grow')
+
+        // titre du topic
+        var div4 = document.createElement('div');
+        var txt4 = document.createTextNode(pseudo[id])
+        div4.setAttribute('class', 'card-header')
+        div4.appendChild(txt4)
+
+        // description du topic
+        var div5 = document.createElement('div');
+        var txt5 = document.createTextNode(postFinalForm[id])
+        div5.setAttribute('class', 'card-content')
+        div5.appendChild(txt5)
+
+        var parent = document.getElementById("start")
+
+        // On assemble les divs
+        document.body.appendChild(div1);
+        div1.appendChild(divimage)
+        parent.appendChild(div1)
+        div1.appendChild(div2)
+        div2.appendChild(div4)
+        div2.appendChild(div5)
+
+
+
+    }
+
+    function create() {
+
+        let id = getParameters();
+        var data = "{{.comments}}"
+        
+        data = data.slice(1, -1)
+
+        const idRegex = /(?<={)\d+/g
+        const pseudoRegex = /(?<=\d\s)\w+(?=\s)/g
+
+
+        var _id = data.match(idRegex) // id ok
+        var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
+
+        var postForm1 = data.replace(/(?<=\d\s)\w+(?=\s)/g, "")
+        var postForm2 = postForm1.replace(/(?<={)\d+\s\s/g, "")
+        postForm2 = postForm2.slice(1, -1)
+        var postFinalForm = postForm2.split("} {") // post ok even with special char
+        console.log(postForm1);
+        var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
+        var CreationDate = new Date("")
+
+
+        var idPost = []
+        var idPseudo = []
+        for (let ad = 0; ad < _id.length; ad++) {
+            idPost[ad] = _id[ad] + " " + postFinalForm[ad]
+            idPseudo[ad] = _id[ad] + " " + pseudo[ad]
+        }
+        console.log(idPseudo);
+
+
+        _id = _id.filter(item => id.includes(item));
+
+
+        idPost = idPost.filter(item => id.includes(item[0]))
+        idPseudo = idPseudo.filter(item => id.includes(item[0]))
+
+
+        for (i = 0; i < _id.length; i++) {
+
+            // le conteneur de la div
+            var div1 = document.createElement('div');
+            div1.setAttribute('class', 'card shadow-1 fx-row');
+            div1.id = i;
+
+            // La photo de l'avatar
+            var divimage = document.createElement('img');
+            divimage.style.width = "180px";
+            divimage.setAttribute('id', 'img')
+            divimage.setAttribute('src', avatar)
+
+            // Le cadre de l'avatar
+            var div2 = document.createElement('div');
+            div2.setAttribute('class', 'flex fx-col fx-grow')
+
+
+            // description du topic
+            var div4 = document.createElement('div');
+            var txt4 = document.createTextNode(idPseudo[i].slice(2))
+            div4.setAttribute('class', 'card-header')
+            div4.appendChild(txt4)
+
+            // description du topic
+            var div5 = document.createElement('div');
+            var txt5 = document.createTextNode(idPost[i].slice(2))
+            div5.setAttribute('class', 'card-content')
+            div5.appendChild(txt5)
+
+
+            var parent = document.getElementById("acc")
+
+            // On assemble les divs
+            document.body.appendChild(div1);
+            div1.appendChild(divimage)
+            parent.appendChild(div1)
+            div1.appendChild(div2)
+            div2.appendChild(div4)
+            div2.appendChild(div5)
+
+
+        }
+    }
+
+</script>
+
+
+<body>
+
+    <nav class="navbar shadow-1 primary">
+        <a href="/Guest" class="navbar-brand">Forum</a>
+        <div class="navbar-menu ml-auto">
+            <a class="navbar-link active" href="/Guest">Back</a>
+        </div>
+    </nav>
+    <div id="start">
+        <script type="text/javascript">
+            createPost()
+        </script>
+    </div>
+
+   <h1>Sign In for more functionality</h1>
+
+    <div id="acc">
+        <script type="text/javascript">
+            create()
+        </script>
+    </div>
+</body>
+
+</html>
