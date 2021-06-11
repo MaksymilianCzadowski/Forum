@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"regexp"
 
 	"github.com/gorilla/sessions"
 	_ "github.com/mattn/go-sqlite3"
@@ -234,22 +235,27 @@ func RegisterHandle(w http.ResponseWriter, r *http.Request) { // for user to reg
 	userName := r.FormValue("username")
 	email := r.FormValue("email")
 	password, _ := HashPassword(r.FormValue("password"))
-
+	tpl := template.Must(template.ParseFiles("assets/register.html"))
+	regData.Nope = ""
 	// fmt.Println(userName)
 	// fmt.Println(email)
 	// fmt.Println(password)
-
+	regexp, _ := regexp.Match(`[0-9]`, []byte(userName))
+	fmt.Println(regexp)
+	if regexp {
+		regData.Nope = "your name must contain single characters (A-Z a-z)"
+		tpl.Execute(w, regData)
+		return
+	}
 	if userName != "" && email != "" && password != "" {
 		if verifRegisterData(userName, email) {
 			addUser(userName, email, password)
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 		} else {
-			regData.Nope = "your email or your username are already used ! chacal"
+			regData.Nope = "your email or your username are already used !"
 		}
 
 	}
-
-	tpl := template.Must(template.ParseFiles("assets/register.html"))
 
 	err := tpl.Execute(w, regData)
 	if err != nil {
