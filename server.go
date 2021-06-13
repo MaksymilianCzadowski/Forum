@@ -25,21 +25,15 @@ type Err struct {
 }
 
 type Post struct {
-	Comment    string
-	TagCod     string
-	TagMusic   string
-	TagArt     string
-	TagSport   string
-	TagFashion string
-	TagFood    string
-	TagCinema  string
-	TagCars    string
+	Comment string
+	Tag     string
 }
 
 type PrintPost struct {
 	Username string
 	Id       int
 	Comment  string
+	Tag      string
 }
 
 type Comments struct {
@@ -65,7 +59,7 @@ func createTablePeople() { // create table for account in database
 
 func createTablePost() { // create table for post in database
 	statement, _ :=
-		database.Prepare("CREATE TABLE IF NOT EXISTS post (id INTEGER PRIMARY KEY, username TEXT, comment TEXT)")
+		database.Prepare("CREATE TABLE IF NOT EXISTS post (id INTEGER PRIMARY KEY, username TEXT, comment TEXT, tag TEXT)")
 	defer statement.Close()
 	statement.Exec()
 }
@@ -94,11 +88,10 @@ func addUser(username string, email string, password string) { // add user infor
 func addPost(username string) { // add post information in database
 	fmt.Println(username)
 	fmt.Println(tag.Comment)
-	// fmt.Println(tag.TagCars)
 
 	statement, _ :=
-		database.Prepare("INSERT INTO post (username, comment) VALUES (?, ?)")
-	statement.Exec(username, tag.Comment)
+		database.Prepare("INSERT INTO post (username, comment, tag) VALUES (?, ?, ?)")
+	statement.Exec(username, tag.Comment, tag.Tag)
 
 }
 
@@ -206,10 +199,10 @@ func getAllData() []PrintPost { // get post information from database
 	var temp PrintPost
 
 	rows, _ :=
-		database.Query("SELECT id, username, comment FROM post")
+		database.Query("SELECT id, username, comment, tag FROM post")
 	allData = nil
 	for rows.Next() {
-		rows.Scan(&temp.Id, &temp.Username, &temp.Comment)
+		rows.Scan(&temp.Id, &temp.Username, &temp.Comment, &temp.Tag)
 		allData = append(allData, temp)
 	}
 	return allData
@@ -303,14 +296,7 @@ func CreatePostHandle(w http.ResponseWriter, r *http.Request) { // for user to a
 	username := fmt.Sprintf("%v", session.Values["username"])
 
 	tag.Comment = r.FormValue("comment")
-	tag.TagCod = r.FormValue("tagCod")
-	tag.TagMusic = r.FormValue("tagMusic")
-	tag.TagArt = r.FormValue("tagArt")
-	tag.TagSport = r.FormValue("tagSport")
-	tag.TagFashion = r.FormValue("tagFashion")
-	tag.TagFood = r.FormValue("tagFood")
-	tag.TagCinema = r.FormValue("tagCinema")
-	tag.TagCars = r.FormValue("tagCars")
+	tag.Tag = r.FormValue("Tag")
 
 	if tag.Comment != "" {
 		fmt.Printf("psot en cour\n")
