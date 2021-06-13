@@ -10,6 +10,25 @@ This project consists in creating a web forum that allows :
 * filtering posts.
 
 ***
+
+## Data base
+we used SQLite to store the data in your forum (like users, posts, comments, etc.)
+
+## Register
+Instructions for user registration:
+
+* Must ask for email
+* You need a unique email .
+* You need a unique username
+* You need a password
+* The password is encrypted when stored
+
+## Communication
+
+* Only registered can create posts and comments.
+* The registered users can creating a post and can associate one categories to it.
+* The posts and comments are visible to all users (registered or not).
+
 ## The parts of the program
 
 ***
