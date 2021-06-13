@@ -14,7 +14,10 @@
 
     <script type="text/javascript">
 
-
+        function deletes() {
+            const myNode = document.getElementById("start")
+            myNode.innerHTML = ""
+        }
 
 
         function create() {
@@ -85,6 +88,199 @@
             window.location.href = '/GuestComment?' + String(id);
         }
 
+        function createFilter(i) {
+            var data = "{{.post}}"
+            data = data.slice(1, -1)
+            console.log(data);
+            // console.log(data);
+            const idRegex = /(?<=\w\s)\d+(?=\s\w)/g
+            const pseudoRegex = /(?<={)\w+(?=\s\d)/g
+            const tagRegex = /(?<=\s)(coding)|(music)|(art)|(sport)|(fashion)|(food)|(cinema)|(cars)(?=})/g
+
+            var id = data.match(idRegex) // id ok
+            var pseudo = data.match(pseudoRegex) // pseudo ok whitout special char
+            var tag = data.match(tagRegex)
+            console.log(tag);
+
+            var postForm1 = data.replace(/(?<={)\w+(?=\s\d)/g, "")
+            var postForm2 = postForm1.replace(/(?<=\s)\d+(?=\s\w)/g, "")
+            postForm2 = postForm2.slice(3, -1)
+            var postFinalForm = postForm2.split("} {  ") // post ok even with special char
+
+            var avatar = "https://img.icons8.com/cotton/2x/gender-neutral-user--v2.png";
+            var CreationDate = new Date("")
+
+
+
+
+            // le conteneur de la div
+            var div1 = document.createElement('div');
+            div1.setAttribute('class', 'card shadow-1  fx-row');
+            div1.id = i;
+            div1.onclick = function () {
+                redirect(this.id);
+            };
+            // La photo de l'avatar
+            var divimage = document.createElement('img');
+            divimage.style.width = "180px";
+            divimage.setAttribute('id', 'img');
+            divimage.setAttribute('src', avatar);
+            // divimage.setAttribute('class', 'col-md-4')
+
+            // Le cadre de l'avatar
+            var div2 = document.createElement('div');
+            div2.setAttribute('class', 'flex fx-col fx-grow')
+
+            // // nom de l'auteur du post
+            // var div3 = document.createElement('div');
+            // div3.setAttribute('class', 'card-body')
+
+            // titre du topic
+            var div4 = document.createElement('div');
+            var txt4 = document.createTextNode(pseudo[i])
+            div4.setAttribute('class', 'card-header')
+            div4.appendChild(txt4)
+
+            var divtag = document.createElement('div');
+            var txttag = document.createTextNode(tag[i])
+            divtag.setAttribute('class', 'card-header')
+            divtag.appendChild(txttag)
+
+            // description du topic
+            var div5 = document.createElement('div');
+            var txt5 = document.createTextNode(postFinalForm[i])
+            div5.setAttribute('class', 'card-content')
+            div5.appendChild(txt5)
+
+
+            var parent = document.getElementById("start")
+
+            // On assemble les divs
+            document.body.appendChild(div1);
+            div1.appendChild(divimage)
+            parent.appendChild(div1)
+            div1.appendChild(div2)
+            // div1.appendChild(div3)
+            div2.appendChild(div4)
+            div2.appendChild(divtag)
+            div2.appendChild(div5)
+            // div1.appendChild(div6)
+            // div1.appendChild(div7)
+
+        }
+
+        function filter1() {
+            var data = "{{.post}}"
+            data = data.slice(1, -1)
+            const tagRegex = /(?<=\s)(coding)|(music)|(art)|(sport)|(fashion)|(food)|(cinema)|(cars)(?=})/g
+            var tag = data.match(tagRegex)
+            var btn = "coding"
+            deletes()
+            for (let i = 0; i < tag.length; i++) {
+                if (tag[i] == btn) {
+                    createFilter(i)
+                }
+            }
+        }
+
+        function filter2() {
+            var data = "{{.post}}"
+            data = data.slice(1, -1)
+            const tagRegex = /(?<=\s)(coding)|(music)|(art)|(sport)|(fashion)|(food)|(cinema)|(cars)(?=})/g
+            var tag = data.match(tagRegex)
+            var btn = "music"
+            deletes()
+            for (let i = 0; i < tag.length; i++) {
+                if (tag[i] == btn) {
+                    createFilter(i)
+                }
+            }
+        }
+
+        function filter3() {
+            var data = "{{.post}}"
+            data = data.slice(1, -1)
+            const tagRegex = /(?<=\s)(coding)|(music)|(art)|(sport)|(fashion)|(food)|(cinema)|(cars)(?=})/g
+            var tag = data.match(tagRegex)
+            var btn = "art"
+            deletes()
+            for (let i = 0; i < tag.length; i++) {
+                if (tag[i] == btn) {
+                    createFilter(i)
+                }
+            }
+        }
+
+        function filter4() {
+            var data = "{{.post}}"
+            data = data.slice(1, -1)
+            const tagRegex = /(?<=\s)(coding)|(music)|(art)|(sport)|(fashion)|(food)|(cinema)|(cars)(?=})/g
+            var tag = data.match(tagRegex)
+            var btn = "sport"
+            deletes()
+            for (let i = 0; i < tag.length; i++) {
+                if (tag[i] == btn) {
+                    createFilter(i)
+                }
+            }
+        }
+
+        function filter5() {
+            var data = "{{.post}}"
+            data = data.slice(1, -1)
+            const tagRegex = /(?<=\s)(coding)|(music)|(art)|(sport)|(fashion)|(food)|(cinema)|(cars)(?=})/g
+            var tag = data.match(tagRegex)
+            var btn = "fashion"
+            deletes()
+            for (let i = 0; i < tag.length; i++) {
+                if (tag[i] == btn) {
+                    createFilter(i)
+                }
+            }
+        }
+
+        function filter6() {
+            var data = "{{.post}}"
+            data = data.slice(1, -1)
+            const tagRegex = /(?<=\s)(coding)|(music)|(art)|(sport)|(fashion)|(food)|(cinema)|(cars)(?=})/g
+            var tag = data.match(tagRegex)
+            var btn = "food"
+            deletes()
+            for (let i = 0; i < tag.length; i++) {
+                if (tag[i] == btn) {
+                    createFilter(i)
+                }
+            }
+        }
+
+        function filter7() {
+            var data = "{{.post}}"
+            data = data.slice(1, -1)
+            const tagRegex = /(?<=\s)(coding)|(music)|(art)|(sport)|(fashion)|(food)|(cinema)|(cars)(?=})/g
+            var tag = data.match(tagRegex)
+            var btn = "cinema"
+            deletes()
+            for (let i = 0; i < tag.length; i++) {
+                if (tag[i] == btn) {
+                    createFilter(i)
+                }
+            }
+        }
+
+        function filter8() {
+            var data = "{{.post}}"
+            data = data.slice(1, -1)
+            const tagRegex = /(?<=\s)(coding)|(music)|(art)|(sport)|(fashion)|(food)|(cinema)|(cars)(?=})/g
+            var tag = data.match(tagRegex)
+            var btn = "cars"
+            deletes()
+            for (let i = 0; i < tag.length; i++) {
+                if (tag[i] == btn) {
+                    createFilter(i)
+                }
+            }
+        }
+
     </script>
 </head>
 
@@ -102,6 +298,16 @@
                 <h1>Welcome Guest <br>
                     Sign In for more functionality</h1>
             </div>
+            <br>
+            <button class="btn shadow-1 rounded-1 grey dark-2"  onclick="deletes(),create();">All</button>
+            <button class="btn shadow-1 rounded-1 magenta light-1" value="coding" onclick="filter1()">Coding</button>
+            <button class="btn shadow-1 rounded-1 red dark-1" value="music" onclick="filter2()">Music</button>
+            <button class="btn shadow-1 rounded-1 orange" value="art" onclick="filter3()">Art</button>
+            <button class="btn shadow-1 rounded-1 yellow" value="sport" onclick="filter4()">Sport</button>
+            <button class="btn shadow-1 rounded-1 green dark-3" value="fashion" onclick="filter5()">Fashion</button>
+            <button class="btn shadow-1 rounded-1 cyan light-1" value="food" onclick="filter6()">Food</button>
+            <button class="btn shadow-1 rounded-1 magenta dark-5" value="cinema" onclick="filter7()">Cinema</button>
+            <button class="btn shadow-1 rounded-1 magenta dark-2" value="cars" onclick="filter8()">Cars</button>
         </div>
         <div id="start">
             <script type="text/javascript">

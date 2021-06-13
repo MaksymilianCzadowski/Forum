@@ -15,6 +15,10 @@
 
     <script type="text/javascript">
 
+        function deletes() {
+            const myNode = document.getElementById("start")
+            myNode.innerHTML = ""
+        }
 
 
 
@@ -112,7 +116,6 @@
             }
         }
         function createFilter(i) {
-
             var data = "{{.post}}"
             data = data.slice(1, -1)
             console.log(data);
@@ -311,14 +314,6 @@
 
 
 
-
-
-        function deletes() {
-            const myNode = document.getElementById("start")
-            myNode.innerHTML = ""
-        }
-
-
     </script>
 </head>
 
@@ -338,7 +333,7 @@
             <a href="/CreateNewPost" class="btn shadow-1 rounded-1 blue">Create a new post</a>
             <br>
             <!-- <div class="tag"> -->
-            <button class="btn shadow-1 rounded-1 grey dark-2" onclick="create()">All</button>
+            <button class="btn shadow-1 rounded-1 grey dark-2" onclick="deletes(),create()">All</button>
             <button class="btn shadow-1 rounded-1 magenta light-1" value="coding" onclick="filter1()">Coding</button>
             <button class="btn shadow-1 rounded-1 red dark-1" value="music" onclick="filter2()">Music</button>
             <button class="btn shadow-1 rounded-1 orange" value="art" onclick="filter3()">Art</button>
