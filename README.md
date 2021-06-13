@@ -10,9 +10,12 @@ This project consists in creating a web forum that allows :
 * filtering posts.
 
 ***
+## Backend
+We used golang
+We used SQLite to store the data in your forum (like users, posts, comments, etc.)
 
-## Data base
-we used SQLite to store the data in your forum (like users, posts, comments, etc.)
+## Frontend
+We used framework axentix and some boostrap
 
 ## Register
 Instructions for user registration:
